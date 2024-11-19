@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { FiHeart, FiShoppingCart, FiSearch, FiMenu, FiX } from "react-icons/fi";
 import { motion } from "framer-motion";
-
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 

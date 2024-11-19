@@ -1,5 +1,14 @@
 import { Header } from "./Header";
 import { TopNotification } from "./TopNotification";
 import { Moto } from "./Moto";
-
-export { Header, TopNotification, Moto };
+import { TiitleBar } from "./TiitleBar";
+import { CountDownTimer } from "./CountDownTimer";
+import { ProductCarousel } from "./ProductCarousel";
+export {
+  Header,
+  TopNotification,
+  TiitleBar,
+  Moto,
+  CountDownTimer,
+  ProductCarousel,
+};
