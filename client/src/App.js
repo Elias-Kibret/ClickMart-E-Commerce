@@ -4,7 +4,6 @@ import {
   TopNotification,
   Moto,
   TiitleBar,
-  CountDownTimer,
   ProductCarousel,
 } from "./components/index";
 function App() {

@@ -3,10 +3,10 @@ import { motion } from "framer-motion";
 import authImage from "../Assests/auth.png"; // Ensure the image path is correct
 
 export const SignUpForm = () => {
-  const [isLogin, setIsLogin] = useState(true); // Default to Login Form
+  const [isLogin, setIsLogin] = useState(false); // State to toggle between Sign Up and Log In forms
 
   const handleFormToggle = () => {
-    setIsLogin((prevState) => !prevState); // Toggle between Login and Sign-Up forms
+    setIsLogin((prevState) => !prevState); // Toggle between Sign Up and Log In
   };
 
   const handleSubmit = (e) => {
@@ -51,7 +51,7 @@ export const SignUpForm = () => {
         </p>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Name Input (only for Sign-Up) */}
+          {/* Name Input (only for Sign Up) */}
           {!isLogin && (
             <div>
               <label
