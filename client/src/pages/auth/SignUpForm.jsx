@@ -3,10 +3,15 @@ import { motion } from "framer-motion";
 import authImage from "../Assests/auth.png"; // Ensure the image path is correct
 
 export const SignUpForm = () => {
-  const [isLogin, setIsLogin] = useState(false); // State to toggle between Sign Up and Log In forms
+  const [isLogin, setIsLogin] = useState(true); // Default to Login Form
+  const [role, setRole] = useState("buyer"); // Default role is buyer
 
   const handleFormToggle = () => {
-    setIsLogin((prevState) => !prevState); // Toggle between Sign Up and Log In
+    setIsLogin((prevState) => !prevState); // Toggle between Login and Sign-Up forms
+  };
+
+  const handleRoleChange = (e) => {
+    setRole(e.target.value); // Update the selected role
   };
 
   const handleSubmit = (e) => {
@@ -14,7 +19,7 @@ export const SignUpForm = () => {
     if (isLogin) {
       console.log("Logging in..."); // Replace with backend integration
     } else {
-      console.log("Creating account..."); // Replace with backend integration
+      console.log("Registering as:", { role }); // Replace with backend integration
     }
   };
 
@@ -51,7 +56,7 @@ export const SignUpForm = () => {
         </p>
 
         <form className="space-y-6" onSubmit={handleSubmit}>
-          {/* Name Input (only for Sign Up) */}
+          {/* Name Input (only for Sign-Up) */}
           {!isLogin && (
             <div>
               <label
@@ -101,6 +106,39 @@ export const SignUpForm = () => {
             />
           </div>
 
+          {/* Role Selection (only for Sign-Up) */}
+          {!isLogin && (
+            <div>
+              <label className="block text-sm font-medium text-gray-700">
+                Select Role
+              </label>
+              <div className="mt-2 flex items-center space-x-4">
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="buyer"
+                    checked={role === "buyer"}
+                    onChange={handleRoleChange}
+                    className="text-blue-500 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Buyer</span>
+                </label>
+                <label className="flex items-center">
+                  <input
+                    type="radio"
+                    name="role"
+                    value="seller"
+                    checked={role === "seller"}
+                    onChange={handleRoleChange}
+                    className="text-blue-500 focus:ring-blue-500"
+                  />
+                  <span className="ml-2 text-sm text-gray-700">Seller</span>
+                </label>
+              </div>
+            </div>
+          )}
+
           {/* Submit Button */}
           <button
             type="submit"
@@ -145,3 +183,5 @@ export const SignUpForm = () => {
     </div>
   );
 };
+
+export default SignUpForm;
