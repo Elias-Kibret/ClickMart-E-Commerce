@@ -5,6 +5,7 @@ import { TiitleBar } from "./TiitleBar";
 import { CountDownTimer } from "./CountDownTimer";
 import { ProductCarousel } from "./ProductCarousel";
 import { ShoppingCart } from "./ShoppingCart";
+import { AdminDashboard } from "../pages/admin/index";
 export {
   Header,
   TopNotification,
@@ -13,4 +14,5 @@ export {
   CountDownTimer,
   ProductCarousel,
   ShoppingCart,
+  AdminDashboard,
 };
