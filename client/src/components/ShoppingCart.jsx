@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import product1 from "../Assests/product1.png";
 import product2 from "../Assests/product2.png";
 
-export const Cart = () => {
+export const ShoppingCart = () => {
   // Fake JSON data for the cart, including maxQuantity
   const initialCart = [
     {
@@ -200,3 +200,5 @@ export const Cart = () => {
     </div>
   );
 };
+
+export default ShoppingCart;

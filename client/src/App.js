@@ -5,7 +5,10 @@ import {
   Moto,
   TiitleBar,
   ProductCarousel,
+  ShoppingCart,
 } from "./components/index";
+import SignUpForm from "./pages/auth/SignUpForm";
+import BillingDetails from "./components/BillingDetails";
 function App() {
   return (
     <div>
@@ -14,6 +17,9 @@ function App() {
       <Moto />
       <TiitleBar />
       <ProductCarousel />
+      <ShoppingCart />
+      {/* <SignUpForm /> */}
+      <BillingDetails />
     </div>
   );
 }

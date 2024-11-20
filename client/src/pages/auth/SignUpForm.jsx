@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import authImage from "../Assests/auth.png"; // Ensure the image path is correct
+import authImage from "../../Assests/auth.png"; // Ensure the image path is correct
 
 export const SignUpForm = () => {
   const [isLogin, setIsLogin] = useState(true); // Default to Login Form

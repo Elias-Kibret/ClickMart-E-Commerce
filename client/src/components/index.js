@@ -4,7 +4,7 @@ import { Moto } from "./Moto";
 import { TiitleBar } from "./TiitleBar";
 import { CountDownTimer } from "./CountDownTimer";
 import { ProductCarousel } from "./ProductCarousel";
-
+import { ShoppingCart } from "./ShoppingCart";
 export {
   Header,
   TopNotification,
@@ -12,6 +12,5 @@ export {
   Moto,
   CountDownTimer,
   ProductCarousel,
-
-
+  ShoppingCart,
 };
