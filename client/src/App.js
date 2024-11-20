@@ -5,7 +5,6 @@ import {
   Moto,
   TiitleBar,
   ProductCarousel,
-  BillingDetails,
 } from "./components/index";
 function App() {
   return (
@@ -15,7 +14,6 @@ function App() {
       <Moto />
       <TiitleBar />
       <ProductCarousel />
-      <BillingDetails />
     </div>
   );
 }
