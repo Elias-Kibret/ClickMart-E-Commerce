@@ -12,6 +12,7 @@ import {
 import SignUpForm from "./pages/auth/SignUpForm";
 import BillingDetails from "./components/BillingDetails";
 import { AdminDashboard } from "./components/index";
+
 function App() {
   return (
     <div>
@@ -24,6 +25,7 @@ function App() {
       {/* <SignUpForm /> */}
       <BillingDetails />
       <AdminDashboard />
+      {/* <SignUpForm /> */}
     </div>
   );
 }
