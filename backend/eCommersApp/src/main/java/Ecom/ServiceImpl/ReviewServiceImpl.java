@@ -52,6 +52,7 @@ public class ReviewServiceImpl implements ReviewService {
 
 		existingReview.setComment(review.getComment());
 		existingReview.setRating(review.getRating());
+		reviewRepository.save(existingReview);
 		return existingReview;
 	}
 

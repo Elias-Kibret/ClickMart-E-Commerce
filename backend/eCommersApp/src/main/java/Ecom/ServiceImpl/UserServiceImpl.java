@@ -99,7 +99,7 @@ public class UserServiceImpl implements UserService {
 
 	public User changePassword(Integer userId, UserDTO customer) throws UserException {
 		User user = userRepository.findById(userId).orElseThrow(() -> new UserException("User not found"));
-		if (customer.getNewPassword().length() >= 5 && customer.getNewPassword().length() <= 10) {
+		if (customer.getNewPassword().length() >= 5 && customer.getNewPassword().length() <= 100) {
 			user.updatePassword(customer.getNewPassword(), passwordEncoder);
 			return userRepository.save(user);
 		} else {

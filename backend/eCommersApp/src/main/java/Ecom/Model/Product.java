@@ -3,6 +3,7 @@ package Ecom.Model;
 import java.util.ArrayList;
 import java.util.List;
 
+import Ecom.Utils.ListToStringConvertor;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.*;
@@ -51,21 +52,21 @@ public class Product {
     private String category;
 
 
-    @ElementCollection
     @NotEmpty(message = "At least one image is required.")
-    @Column(name = "related_images")
+    @Column(name = "related_images", columnDefinition = "TEXT")
+    @Convert(converter = ListToStringConvertor.class)
     private List<String> relatedImages;
 
 
-    @ElementCollection
     @NotEmpty(message = "At least one color is required.")
-    @Column(name = "colors")
+    @JoinColumn(name = "colors")
+    @Convert(converter = ListToStringConvertor.class)
     private List<String> colors;
 
 
-    @ElementCollection
     @NotEmpty(message = "At least one size is required.")
-    @Column(name = "sizes")
+    @JoinColumn(name = "sizes")
+    @Convert(converter = ListToStringConvertor.class)
     private List<String> sizes;
 
     

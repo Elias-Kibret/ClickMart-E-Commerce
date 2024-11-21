@@ -10,7 +10,7 @@ public class UserDTO {
 
     @NotBlank(message = "New password can not be Blank..")
     @NotNull(message = "New password Can not be Null..")
-    @Size(min = 5,max = 10)
+    @Size(min = 5,max = 100)
     private String newPassword;
 
 }

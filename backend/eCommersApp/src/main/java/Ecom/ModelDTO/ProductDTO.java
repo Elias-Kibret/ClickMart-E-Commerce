@@ -35,17 +35,17 @@ public class ProductDTO {
     private String category;
 
 
-    @ElementCollection
+    @NotNull(message = "Product related images is Mandatory ,can Not Be Null")
     @NotEmpty(message = "At least one image is required.")
     private List<String> relatedImages;
 
 
-    @ElementCollection
+    @NotNull(message = "Product colors is Mandatory ,can Not Be Null")
     @NotEmpty(message = "At least one color is required.")
     private List<String> colors;
 
 
-    @ElementCollection
+    @NotNull(message = "Product sizes is Mandatory ,can Not Be Null")
     @NotEmpty(message = "At least one size is required.")
     private List<String> sizes;
 
