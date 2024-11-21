@@ -3,4 +3,5 @@ import { Cart } from "./cart/Cart";
 import { SignUpForm } from "./auth/SignUpForm";
 import { Home } from "./home/Home";
 import { BillingDetails } from "./billing/BillingDetails";
-export { Layout, Cart, SignUpForm, Home, BillingDetails };
+import { Products } from "./products/Products";
+export { Layout, Cart, SignUpForm, Home, BillingDetails, Products };
