@@ -1,7 +1,7 @@
 import { createBrowserRouter } from "react-router-dom";
 import { BillingDetails, Cart, Home, Layout } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
-import Products from "../pages/product/Products";
+import { Products } from "../pages";
 
 export const router = createBrowserRouter([
   {

@@ -6,6 +6,7 @@ export const productsSlice = createSlice({
     products: [],
     error: null,
     product: {},
+    filterByProductCategory: [],
   },
   reducers: {
     setProducts: (state, action) => {
@@ -15,6 +16,9 @@ export const productsSlice = createSlice({
     setProduct: (state, action) => {
       state.product = action.payload;
     },
+    setProductByCategory: (state, action) => {
+      state.filterByProductCategory = action.payload;
+    },
   },
 });
 
@@ -22,8 +26,11 @@ export const productsSlice = createSlice({
 // the state. Selectors can also be defined inline where they're used instead of
 // in the slice file. For example: `useSelector((state) => state.products.value)`
 export const selectProducts = (state) => state.products.products;
+export const selectfilteredProductsByCategory = (state) =>
+  state.products.filterByProductCategory;
 
 // Action creators are generated for each case reducer function
-export const { setProducts, setProduct } = productsSlice.actions;
+export const { setProducts, setProduct, setProductByCategory } =
+  productsSlice.actions;
 
 export default productsSlice.reducer;
