@@ -1,9 +1,7 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import visaIcon from "../../Assests/Visa.png";
 import mastercardIcon from "../../Assests/masterCard.png";
-import product1 from "../../Assests/product1.png";
-import product2 from "../../Assests/product2.png";
-import { useSelector, useDispatch } from "react-redux";
 export const BillingDetails = () => {
   const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
   const total = cart.reduce((acc, cur) => acc + cur.subtotal, 0); // Calculate the total
@@ -166,7 +164,7 @@ export const BillingDetails = () => {
         {/* Place Order Button */}
         <div className="mt-6 flex justify-start">
           <button className="bg-red-500 text-white px-8 py-2 rounded-md text-lg font-medium hover:bg-red-600">
-            Place Order
+            Proceed to Checkout
           </button>
         </div>
       </div>

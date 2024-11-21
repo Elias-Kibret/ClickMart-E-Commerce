@@ -1,8 +1,8 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../../features/cart/cartSlice";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
+import { useDispatch, useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+import { removeItem, updateQuantity } from "../../features/cart/cartSlice";
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
@@ -220,7 +220,7 @@ export const Cart = () => {
         </div>
         <Link to="/billing">
           <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
-            Proceed to Checkout
+            Place Order
           </button>
         </Link>
       </div>
