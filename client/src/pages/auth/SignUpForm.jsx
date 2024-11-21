@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import authImage from "../../Assests/auth.png"; // Ensure the image path is correct
+import authImage from "../../Assests/auth.png";
+import authApi from "../../api/modules/auth.api"; // Ensure the image path is correct
 
 export const SignUpForm = () => {
   const [isLogin, setIsLogin] = useState(true); // Default to Login Form
@@ -18,6 +19,12 @@ export const SignUpForm = () => {
     e.preventDefault();
     if (isLogin) {
       console.log("Logging in..."); // Replace with backend integration
+      try {
+        const res = authApi.signin({ username: "test", password: "password" });
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
     } else {
       console.log("Registering as:", { role }); // Replace with backend integration
     }
