@@ -1,7 +1,7 @@
 import React, { useState } from "react";
-import product1 from "../Assests/product1.png";
-import product2 from "../Assests/product2.png";
-
+import product1 from "../../Assests/product1.png";
+import product2 from "../../Assests/product2.png";
+import { Link } from "react-router-dom";
 export const Cart = () => {
   // Fake JSON data for the cart, including maxQuantity
   const initialCart = [
@@ -192,9 +192,11 @@ export const Cart = () => {
               <span>${calculateTotal()}</span>
             </div>
           </div>
-          <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
-            Proceed to Checkout
-          </button>
+          <Link to="/billing">
+            <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
+              Proceed to Checkout
+            </button>
+          </Link>
         </div>
       </div>
     </div>

@@ -1,8 +1,8 @@
 import React from "react";
-import visaIcon from "../Assests/Visa.png";
-import mastercardIcon from "../Assests/masterCard.png";
-import product1 from "../Assests/product1.png";
-import product2 from "../Assests/product2.png";
+import visaIcon from "../../Assests/Visa.png";
+import mastercardIcon from "../../Assests/masterCard.png";
+import product1 from "../../Assests/product1.png";
+import product2 from "../../Assests/product2.png";
 
 export const BillingDetails = () => {
   return (

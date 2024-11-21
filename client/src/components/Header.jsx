@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { FiHeart, FiShoppingCart, FiSearch, FiMenu, FiX } from "react-icons/fi";
+import { Link } from "react-router-dom";
 import { motion } from "framer-motion";
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
@@ -19,18 +20,18 @@ export const Header = () => {
 
         {/* Desktop Navigation */}
         <nav className="hidden md:flex space-x-6 text-sm font-medium">
-          <a href="#" className="hover:underline">
+          <Link to="/" className="hover:underline">
             Home
-          </a>
-          <a href="#" className="hover:underline">
+          </Link>
+          <Link to="/contact" className="hover:underline">
             Contact
-          </a>
-          <a href="#" className="hover:underline">
+          </Link>
+          <Link to="/about" className="hover:underline">
             About
-          </a>
-          <a href="#" className="hover:underline">
-            Sign Up
-          </a>
+          </Link>
+          <Link to="/auth" className="hover:underline">
+            Sign In
+          </Link>
         </nav>
 
         {/* Icons and Hamburger Menu */}
@@ -47,7 +48,9 @@ export const Header = () => {
 
           {/* Icons */}
           <FiHeart className="w-5 h-5 cursor-pointer" />
-          <FiShoppingCart className="w-5 h-5 cursor-pointer" />
+          <Link to="/cart">
+            <FiShoppingCart className="w-5 h-5 cursor-pointer" />
+          </Link>
 
           {/* Hamburger Menu for Mobile */}
           <button
@@ -85,18 +88,18 @@ export const Header = () => {
         className="md:hidden bg-gray-100 border-t"
       >
         <nav className="flex flex-col space-y-4 p-4 text-sm font-medium">
-          <a href="#" className="hover:underline">
+          <Link to="/" className="hover:underline">
             Home
-          </a>
-          <a href="#" className="hover:underline">
+          </Link>
+          <Link to="/contact" className="hover:underline">
             Contact
-          </a>
-          <a href="#" className="hover:underline">
+          </Link>
+          <Link to="/about" className="hover:underline">
             About
-          </a>
-          <a href="#" className="hover:underline">
-            Sign Up
-          </a>
+          </Link>
+          <Link to="/auth" className="hover:underline">
+            Sign In
+          </Link>
         </nav>
       </motion.div>
     </header>

@@ -6,44 +6,39 @@ import "slick-carousel/slick/slick-theme.css";
 
 const products = [
   {
-    id: 1,
-    name: "HAVIT HV-G92 Gamepad",
-    discount: "40%",
-    price: "$120",
-    oldPrice: "$160",
-    rating: 4.5,
-    reviews: 88,
-    image: "https://via.placeholder.com/150",
+    productId: 16,
+    name: "Casual Sneakers",
+    imageUrl:
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+    description: "Comfortable sneakers for daily wear and casual outings.",
+    price: 39.99,
+    category: "Clothing",
+    relatedImages: [
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
+    ],
+    colors: ["red"],
+    sizes: ["S"],
+    reviews: [],
+    available: true,
   },
   {
-    id: 2,
-    name: "AK-900 Wired Keyboard",
-    discount: "35%",
-    price: "$960",
-    oldPrice: "$1160",
-    rating: 4.0,
-    reviews: 75,
-    image: "https://via.placeholder.com/150",
-  },
-  {
-    id: 3,
-    name: "IPS LCD Gaming Monitor",
-    discount: "30%",
-    price: "$370",
-    oldPrice: "$400",
-    rating: 4.8,
-    reviews: 99,
-    image: "https://via.placeholder.com/150",
-  },
-  {
-    id: 4,
-    name: "S-Series Comfort Chair",
-    discount: "25%",
-    price: "$375",
-    oldPrice: "$400",
-    rating: 4.2,
-    reviews: 99,
-    image: "https://via.placeholder.com/150",
+    productId: 17,
+    name: "Casual Sneakers",
+    imageUrl:
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+    description: "Comfortable sneakers for daily wear and casual outings.",
+    price: 39.99,
+    category: "Clothing",
+    relatedImages: [
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
+      "https://m.media-amazon.com/images/I/81+8BBmF7hL._AC_SY550_.jpg",
+    ],
+    colors: ["Black", "Lemon"],
+    sizes: ["S", "M", "L"],
+    reviews: [],
+    available: true,
   },
 ];
 
@@ -107,13 +102,13 @@ export const ProductCarousel = () => {
             <div className="border rounded-lg shadow-md bg-white hover:shadow-lg transition">
               <div className="relative">
                 <img
-                  src={product.image}
+                  src={product.imageUrl}
                   alt={product.name}
                   className="w-full h-40 object-cover rounded-t-lg"
                 />
-                <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold py-1 px-2 rounded">
+                {/* <span className="absolute top-2 left-2 bg-red-500 text-white text-xs font-bold py-1 px-2 rounded">
                   -{product.discount}
-                </span>
+                </span> */}
               </div>
               <div className="p-4">
                 <h3 className="text-sm font-semibold">{product.name}</h3>
@@ -126,7 +121,7 @@ export const ProductCarousel = () => {
                   </p>
                 </div>
                 <div className="flex items-center mt-2">
-                  <div className="flex items-center">
+                  {/* <div className="flex items-center">
                     {Array.from({ length: Math.round(product.rating) }).map(
                       (_, i) => (
                         <span key={i} className="text-yellow-500">
@@ -141,9 +136,11 @@ export const ProductCarousel = () => {
                         </span>
                       )
                     )}
-                  </div>
+                  </div> */}
                   <p className="ml-2 text-xs text-gray-500">
-                    ({product.reviews} reviews)
+                    {product.reviews.length > 0
+                      ? `${product.reviews.length} reviews`
+                      : ""}
                   </p>
                 </div>
                 <button className="w-full bg-black text-white py-2 mt-4 rounded hover:bg-gray-800">

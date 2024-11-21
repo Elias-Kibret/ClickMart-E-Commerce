@@ -1,18 +1,54 @@
 import React, { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { MdLocalShipping, MdOutlineReplay } from "react-icons/md";
-import img1 from "../Assests/product/img1.png";
-import img2 from "../Assests/product/img2.png";
-import img3 from "../Assests/product/img3.png";
-import img4 from "../Assests/product/img4.png";
 
-const images = [img1, img2, img3, img4];
+// Sample product data
+const products = [
+  {
+    productId: 16,
+    name: "Casual Sneakers",
+    imageUrl:
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+    description: "Comfortable sneakers for daily wear and casual outings.",
+    price: 39.99,
+    category: "Clothing",
+    relatedImages: [
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
+    ],
+    colors: ["red"],
+    sizes: ["S"],
+    reviews: [],
+    available: true,
+  },
+  {
+    productId: 17,
+    name: "Casual Sneakers",
+    imageUrl:
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+    description: "Comfortable sneakers for daily wear and casual outings.",
+    price: 39.99,
+    category: "Clothing",
+    relatedImages: [
+      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
+      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
+      "https://m.media-amazon.com/images/I/81+8BBmF7hL._AC_SY550_.jpg",
+    ],
+    colors: ["Black", "Lemon"],
+    sizes: ["S", "M", "L"],
+    reviews: [],
+    available: true,
+  },
+];
 
-export const ProductDetails = () => {
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+export const ProductDetails = ({ productId }) => {
+  // Fetch product based on productId (assuming a dynamic productId)
+  const product = products.find((p) => p.productId === productId);
+
+  const [selectedImage, setSelectedImage] = useState(product.relatedImages[0]);
   const [quantity, setQuantity] = useState(1);
-  const [selectedSize, setSelectedSize] = useState("M");
-  const [selectedColor, setSelectedColor] = useState("red");
+  const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
+  const [selectedColor, setSelectedColor] = useState(product.colors[0]);
 
   const handleQuantityChange = (type) => {
     if (type === "increment") {
@@ -28,7 +64,7 @@ export const ProductDetails = () => {
       <div className="lg:flex lg:gap-4">
         {/* Thumbnail List */}
         <div className="flex lg:flex-col gap-2">
-          {images.map((image, index) => (
+          {product.relatedImages.map((image, index) => (
             <img
               key={index}
               src={image}
@@ -47,53 +83,39 @@ export const ProductDetails = () => {
             alt="Selected Product"
             className="w-[350px] max-w-lg object-contain rounded-lg"
           />
-          {/* Magnifier Effect */}
-          <div
-            className="absolute inset-0 hover:cursor-zoom-in"
-            style={{
-              backgroundImage: `url(${selectedImage})`,
-              backgroundSize: "200%",
-              backgroundRepeat: "no-repeat",
-              opacity: 0,
-              transition: "opacity 0.3s",
-            }}
-            onMouseEnter={(e) => {
-              e.target.style.opacity = 1;
-              e.target.style.backgroundPosition = "center";
-            }}
-            onMouseLeave={(e) => {
-              e.target.style.opacity = 0;
-            }}
-          ></div>
         </div>
       </div>
 
       {/* Right Section - Product Details */}
       <div className="flex-1">
         <h1 className="text-2xl lg:text-3xl font-semibold text-gray-900">
-          Havic HV G-92 Gamepad
+          {product.name}
         </h1>
         <div className="flex items-center gap-2 mt-2 text-sm">
           <div className="flex items-center text-yellow-500">
             {"★".repeat(4)}{" "}
             <span className="text-gray-400">{"★".repeat(1)}</span>
           </div>
-          <p className="text-gray-500">(150 Reviews)</p>
-          <p className="text-green-600 font-medium">In Stock</p>
+          <p className="text-gray-500">({product.reviews.length} Reviews)</p>
+          <p
+            className={`font-medium ${
+              product.available ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {product.available ? "In Stock" : "Out of Stock"}
+          </p>
         </div>
 
-        <p className="text-2xl font-semibold text-gray-900 mt-4">$192.00</p>
-        <p className="text-gray-600 mt-4">
-          PlayStation 5 Controller Skin High-quality vinyl with air channel
-          adhesive for easy bubble-free install & mess-free removal. Pressure
-          sensitive.
+        <p className="text-2xl font-semibold text-gray-900 mt-4">
+          ${product.price.toFixed(2)}
         </p>
+        <p className="text-gray-600 mt-4">{product.description}</p>
 
         {/* Colors */}
         <div className="mt-6">
-          <h4 className="text-sm font-medium text-gray-700 mb-2">Colours:</h4>
+          <h4 className="text-sm font-medium text-gray-700 mb-2">Colors:</h4>
           <div className="flex gap-4">
-            {["red", "gray"].map((color) => (
+            {product.colors.map((color) => (
               <div
                 key={color}
                 onClick={() => setSelectedColor(color)}
@@ -112,7 +134,7 @@ export const ProductDetails = () => {
         <div className="mt-6">
           <h4 className="text-sm font-medium text-gray-700 mb-2">Size:</h4>
           <div className="flex gap-2">
-            {["XS", "S", "M", "L", "XL"].map((size) => (
+            {product.sizes.map((size) => (
               <button
                 key={size}
                 onClick={() => setSelectedSize(size)}
