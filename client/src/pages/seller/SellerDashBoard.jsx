@@ -2,11 +2,13 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { selectUser } from "../../features/user/userSlice";
 import { Pending } from "../pending/Pending";
-
+import { useLocation } from "react-router-dom";
 export const SellerDashBoard = () => {
   // Access user data from Redux store
   const user = useSelector(selectUser);
   console.log(user);
+  const location = useLocation();
+  console.log(location);
 
   return (
     <div className="p-4 bg-gray-100 min-h-screen">

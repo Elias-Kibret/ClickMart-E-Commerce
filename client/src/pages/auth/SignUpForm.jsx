@@ -56,16 +56,22 @@ export const SignUpForm = () => {
 
           console.log(response); // Extract JWT and role from response
           localStorage.setItem("token", jwt);
-        
+
           dispatch(
             setUser({ name: name, role: role, active: userAccountStatus })
           );
-          console.log(name, role);
+          const data = {
+            name: name,
+            role: role,
+            userAccountStatus: userAccountStatus,
+          };
 
-          console.log(user);
+          console.log(data);
           // Redirect based on role
           if (role === "BUYER") {
-            navigate("/");
+            navigate("/", {
+              state: data,
+            });
           } else if (role === "SELLER") {
             navigate("/seller-dashboard");
           } else if (role === "ADMIN") {
