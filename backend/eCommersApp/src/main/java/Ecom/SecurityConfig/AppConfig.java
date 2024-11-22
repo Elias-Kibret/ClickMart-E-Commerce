@@ -30,10 +30,17 @@ public class AppConfig {
                 .csrf(csrf -> csrf.disable())
                 .authorizeHttpRequests(auth -> {
                     auth.requestMatchers(HttpMethod.POST, "/ecom/login").permitAll(); // Allow login without token
+                    auth.requestMatchers(HttpMethod.PUT, "/ecom/customers/activate/{customerid}").hasRole("ADMIN");
+                    auth.requestMatchers(HttpMethod.GET, "/ecom/customers/get-all-customer").hasRole("ADMIN");
                     auth.requestMatchers(HttpMethod.POST, "/ecom/customers").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/ecom/products/**").permitAll();
                    auth.requestMatchers(HttpMethod.POST, "/ecom/products/**").hasRole("SELLER");
+                    auth.requestMatchers(HttpMethod.DELETE, "/ecom/products/{productId}").hasRole("SELLER");
+                    auth.requestMatchers(HttpMethod.PUT, "/ecom/products/update/{productId}").hasRole("SELLER");
                     auth.requestMatchers(HttpMethod.POST, "/ecom/cart/**").hasRole("BUYER");
+                    auth.requestMatchers(HttpMethod.POST, "/ecom/orders/**").hasRole("BUYER");
+                    auth.requestMatchers(HttpMethod.POST, "/ecom/order-payments/**").hasRole("BUYER");
+
                     auth.anyRequest().authenticated(); // Require token for all other endpoints
                 })
                 .addFilterBefore(new JwtTokenValidatorFilter(), UsernamePasswordAuthenticationFilter.class);

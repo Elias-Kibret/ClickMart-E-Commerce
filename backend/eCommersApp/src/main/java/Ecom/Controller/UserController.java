@@ -15,7 +15,7 @@ import jakarta.validation.Valid;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/ecom/customers")
-public class CustomerController {
+public class UserController {
 
     private final UserService userService;
 
@@ -36,9 +36,8 @@ public class CustomerController {
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/activate/{customerid}")
+    @PutMapping("/activate/{customerid}")
     public ResponseEntity<String> activateSeller(@PathVariable("customerid") Integer customerId) {
-        System.out.println("inside the deactivate method");
         String message = userService.activateSeller(customerId);
         return ResponseEntity.ok(message);
     }
