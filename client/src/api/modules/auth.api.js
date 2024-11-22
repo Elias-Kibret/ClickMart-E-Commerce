@@ -2,8 +2,8 @@ import privateClient from "../client/private.client";
 import publicClient from "../client/public.client";
 
 const authEndpoints = {
-  signin: "user/signin",
-  signup: "user/signup",
+  signin: "login",
+  signup: "customers",
   getInfo: "user/info",
   passwordUpdate: "user/update-password",
 };
@@ -23,13 +23,13 @@ const authApi = {
       return { err };
     }
   },
-  signup: async ({ username, password, confirmPassword, displayName }) => {
+  signup: async ({ name, email, password, role }) => {
     try {
       const response = await publicClient.post(authEndpoints.signup, {
-        username,
+        name,
         password,
-        confirmPassword,
-        displayName,
+        email,
+        role,
       });
 
       return { response };

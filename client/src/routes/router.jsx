@@ -1,5 +1,5 @@
 import { createBrowserRouter } from "react-router-dom";
-import { BillingDetails, Cart, Home, Layout } from "../pages";
+import { BillingDetails, Cart, Home, Layout, ProductDetails } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
 
@@ -22,6 +22,10 @@ export const router = createBrowserRouter([
       {
         path: "billing",
         element: <BillingDetails />,
+      },
+      {
+        path: "productsDetail",
+        element: <ProductDetails />,
       },
       {
         path: "products",

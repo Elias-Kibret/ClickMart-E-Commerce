@@ -10,8 +10,9 @@ export const productApi = {
   getAllProducts: async () => {
     try {
       const response = await publicClient.get(productEndpoints.getAll);
+      console.log(response);
 
-      return { response };
+      return response;
     } catch (err) {
       return { err };
     }

@@ -2,7 +2,8 @@ import axios from "axios";
 import queryString from "query-string";
 
 // const baseURL = "http://localhost:8080/api/v1/";
-const baseURL = "http:/10.200.8.78:8080/ecom/";
+const baseURL = "http://10.200.9.158:8080/ecom/";
+// http://10.200.8.13:8080/ecom/
 
 const publicClient = axios.create({
   baseURL,
@@ -12,7 +13,6 @@ const publicClient = axios.create({
 });
 
 publicClient.interceptors.request.use(async (config) => {
-  console.log(baseURL);
   return {
     ...config,
     headers: {
@@ -21,14 +21,24 @@ publicClient.interceptors.request.use(async (config) => {
   };
 });
 
+// publicClient.interceptors.response.use(
+//   (response) => {
+//     if (response && response.data) return response.data;
+//     return response;
+//   },
+//   (err) => {
+//     throw err.response.data;
+//   }
+// );
+
 publicClient.interceptors.response.use(
   (response) => {
-    console.log(response);
-    if (response && response.data) return response.data;
-    return response;
+    // Return response.data directly
+    return response?.data || response;
   },
   (err) => {
-    throw err.response.data;
+    // Handle errors properly
+    return Promise.reject(err?.response?.data || err.message);
   }
 );
 

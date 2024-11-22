@@ -1,32 +1,63 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
-import authImage from "../../Assests/auth.png";
-import authApi from "../../api/modules/auth.api"; // Ensure the image path is correct
+import authImage from "../../Assests/auth.png"; // Ensure the image path is correct
+import authApi from "../../api/modules/auth.api";
 
 export const SignUpForm = () => {
   const [isLogin, setIsLogin] = useState(true); // Default to Login Form
-  const [role, setRole] = useState("buyer"); // Default role is buyer
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    password: "",
+    role: "BUYER", // Default role for sign-up in uppercase
+  });
 
   const handleFormToggle = () => {
     setIsLogin((prevState) => !prevState); // Toggle between Login and Sign-Up forms
+    setFormData({
+      name: "",
+      email: "",
+      password: "",
+      role: "BUYER",
+    }); // Reset form data when toggling
   };
 
-  const handleRoleChange = (e) => {
-    setRole(e.target.value); // Update the selected role
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({
+      ...prevData,
+      [name]: name === "role" ? value.toUpperCase() : value, // Convert role to uppercase
+    }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
     if (isLogin) {
-      console.log("Logging in..."); // Replace with backend integration
+      console.log("Logging in with:", {
+        email: formData.email,
+        password: formData.password,
+      });
       try {
-        const res = authApi.signin({ username: "test", password: "password" });
+        const res = await authApi.signin({
+          username: formData.email,
+          password: formData.password,
+        });
         console.log(res);
       } catch (error) {
         console.error(error);
       }
     } else {
-      console.log("Registering as:", { role }); // Replace with backend integration
+      try {
+        const res = await authApi.signup({
+          name: formData.name,
+          email: formData.email,
+          password: formData.email,
+          role: formData.role,
+        });
+        console.log(res);
+      } catch (error) {
+        console.error(error);
+      }
     }
   };
 
@@ -75,6 +106,9 @@ export const SignUpForm = () => {
               <input
                 type="text"
                 id="name"
+                name="name"
+                value={formData.name}
+                onChange={handleChange}
                 placeholder="Enter your name"
                 className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
               />
@@ -92,6 +126,9 @@ export const SignUpForm = () => {
             <input
               type="email"
               id="email"
+              name="email"
+              value={formData.email}
+              onChange={handleChange}
               placeholder="Enter your email or phone number"
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
@@ -108,6 +145,9 @@ export const SignUpForm = () => {
             <input
               type="password"
               id="password"
+              name="password"
+              value={formData.password}
+              onChange={handleChange}
               placeholder="Enter your password"
               className="mt-1 block w-full px-4 py-3 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500 text-sm"
             />
@@ -125,8 +165,8 @@ export const SignUpForm = () => {
                     type="radio"
                     name="role"
                     value="buyer"
-                    checked={role === "buyer"}
-                    onChange={handleRoleChange}
+                    checked={formData.role === "BUYER"}
+                    onChange={handleChange}
                     className="text-blue-500 focus:ring-blue-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">Buyer</span>
@@ -136,8 +176,8 @@ export const SignUpForm = () => {
                     type="radio"
                     name="role"
                     value="seller"
-                    checked={role === "seller"}
-                    onChange={handleRoleChange}
+                    checked={formData.role === "SELLER"}
+                    onChange={handleChange}
                     className="text-blue-500 focus:ring-blue-500"
                   />
                   <span className="ml-2 text-sm text-gray-700">Seller</span>
@@ -154,26 +194,6 @@ export const SignUpForm = () => {
             {isLogin ? "Log In" : "Create Account"}
           </button>
         </form>
-
-        {/* Or Divider */}
-        <div className="flex items-center justify-center my-6">
-          <span className="w-full border-b border-gray-300"></span>
-          <span className="px-4 text-sm text-gray-500">OR</span>
-          <span className="w-full border-b border-gray-300"></span>
-        </div>
-
-        {/* Sign Up or Log In with Google */}
-        <button
-          type="button"
-          className="w-full flex items-center justify-center py-3 border border-gray-300 rounded-md text-sm text-gray-700 font-medium hover:bg-gray-100"
-        >
-          <img
-            src="https://www.google.com/favicon.ico"
-            alt="Google"
-            className="w-5 h-5 mr-3"
-          />
-          {isLogin ? "Log in with Google" : "Sign up with Google"}
-        </button>
 
         {/* Footer */}
         <p className="text-sm text-gray-600 text-center mt-8">

@@ -1,50 +1,39 @@
-import React, { useState } from "react";
-import product1 from "../../Assests/product1.png";
-import product2 from "../../Assests/product2.png";
+import React from "react";
 import { Link } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  removeItem,
+  updateQuantity,
+  clearCart,
+} from "../../features/cart/cartSlice";
+
 export const Cart = () => {
-  // Fake JSON data for the cart, including maxQuantity
-  const initialCart = [
-    {
-      id: 1,
-      image: product1,
-      name: "LCD Monitor",
-      price: 650,
-      quantity: 1,
-      maxQuantity: 5, // Example maxQuantity from the database
-      subtotal: 650,
-    },
-    {
-      id: 2,
-      image: product2,
-      name: "H1 Gamepad",
-      price: 550,
-      quantity: 2,
-      maxQuantity: 3, // Example maxQuantity from the database
-      subtotal: 1100,
-    },
-  ];
+  const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
+  const dispatch = useDispatch();
+  console.log(cart);
 
-  // State to manage cart data
-  const [cart, setCart] = useState(initialCart);
-
-  // Function to handle item deletion
-  const handleDelete = (id) => {
-    const updatedCart = cart.filter((item) => item.id !== id);
-    setCart(updatedCart);
+  // Handle quantity changes
+  const handleQuantityChange = (id, quantity) => {
+    if (quantity <= 0) {
+      dispatch(removeItem(id)); // Remove item if quantity is zero or less
+    } else {
+      dispatch(updateQuantity({ id, quantity }));
+    }
   };
 
-  // Function to calculate totals
+  // Calculate total cart value
   const calculateTotal = () => {
-    return cart.reduce((acc, item) => acc + item.subtotal, 0);
+    return cart
+      .reduce((acc, item) => acc + item.price * item.quantity, 0)
+      .toFixed(2);
   };
 
   return (
     <div className="p-4 lg:p-6 max-w-screen-lg mx-auto space-y-8">
       {/* Cart Items */}
       <div className="border border-gray-300 rounded-md shadow-sm overflow-hidden">
+        {/* Desktop Table View */}
         <div className="hidden sm:block overflow-x-auto">
-          {/* Desktop Table View */}
           <table className="w-full min-w-[600px] bg-white">
             <thead className="bg-gray-100 text-gray-700 text-sm uppercase">
               <tr>
@@ -67,25 +56,18 @@ export const Cart = () => {
                     <p className="text-gray-800 font-medium">{product.name}</p>
                   </td>
                   <td className="py-4 px-4 text-center text-gray-800">
-                    ${product.price}
+                    ${product.price.toFixed(2)}
                   </td>
                   <td className="py-4 px-4 text-center">
                     <select
                       className="border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                       value={product.quantity}
-                      onChange={(e) => {
-                        const newQuantity = parseInt(e.target.value, 10);
-                        const updatedCart = cart.map((item) =>
-                          item.id === product.id
-                            ? {
-                                ...item,
-                                quantity: newQuantity,
-                                subtotal: newQuantity * item.price,
-                              }
-                            : item
-                        );
-                        setCart(updatedCart);
-                      }}
+                      onChange={(e) =>
+                        handleQuantityChange(
+                          product.id,
+                          parseInt(e.target.value, 10)
+                        )
+                      }
                     >
                       {[...Array(product.maxQuantity)].map((_, i) => (
                         <option key={i} value={i + 1}>
@@ -95,11 +77,11 @@ export const Cart = () => {
                     </select>
                   </td>
                   <td className="py-4 px-4 text-center text-gray-800">
-                    ${product.subtotal}
+                    ${(product.price * product.quantity).toFixed(2)}
                   </td>
                   <td className="py-4 px-4 text-center">
                     <button
-                      onClick={() => handleDelete(product.id)}
+                      onClick={() => dispatch(removeItem(product.id))}
                       className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
                     >
                       Delete
@@ -126,26 +108,21 @@ export const Cart = () => {
                 />
                 <div>
                   <h3 className="text-gray-800 font-medium">{product.name}</h3>
-                  <p className="text-gray-500 text-sm">${product.price}</p>
+                  <p className="text-gray-500 text-sm">
+                    ${product.price.toFixed(2)}
+                  </p>
                 </div>
               </div>
               <div className="flex justify-between items-center mt-4">
                 <select
                   className="border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
                   value={product.quantity}
-                  onChange={(e) => {
-                    const newQuantity = parseInt(e.target.value, 10);
-                    const updatedCart = cart.map((item) =>
-                      item.id === product.id
-                        ? {
-                            ...item,
-                            quantity: newQuantity,
-                            subtotal: newQuantity * item.price,
-                          }
-                        : item
-                    );
-                    setCart(updatedCart);
-                  }}
+                  onChange={(e) =>
+                    handleQuantityChange(
+                      product.id,
+                      parseInt(e.target.value, 10)
+                    )
+                  }
                 >
                   {[...Array(product.maxQuantity)].map((_, i) => (
                     <option key={i} value={i + 1}>
@@ -153,9 +130,11 @@ export const Cart = () => {
                     </option>
                   ))}
                 </select>
-                <p className="text-gray-800">${product.subtotal}</p>
+                <p className="text-gray-800">
+                  ${(product.price * product.quantity).toFixed(2)}
+                </p>
                 <button
-                  onClick={() => handleDelete(product.id)}
+                  onClick={() => dispatch(removeItem(product.id))}
                   className="px-3 py-1 bg-red-500 text-white rounded-md hover:bg-red-600"
                 >
                   Delete
@@ -166,38 +145,28 @@ export const Cart = () => {
         </div>
       </div>
 
-      {/* Action Buttons */}
-
-      {/* Coupon and Cart Total Section */}
-      <div className="flex flex-col lg:flex-row gap-8">
-        {/* Coupon Section */}
-        <div className="flex flex-col lg:w-2/3 space-y-4"></div>
-
-        {/* Cart Total Section */}
-        <div className="border border-gray-300 rounded-md p-6 w-full lg:w-1/3">
-          <h3 className="text-lg font-semibold text-gray-800 mb-6">
-            Cart Total
-          </h3>
-          <div className="space-y-4">
-            <div className="flex justify-between text-gray-700">
-              <span>Subtotal:</span>
-              <span>${calculateTotal()}</span>
-            </div>
-            <div className="flex justify-between text-gray-700">
-              <span>Shipping:</span>
-              <span className="text-green-500">Free</span>
-            </div>
-            <div className="flex justify-between border-t border-gray-200 pt-4 text-gray-900 font-semibold">
-              <span>Total:</span>
-              <span>${calculateTotal()}</span>
-            </div>
+      {/* Cart Total Section */}
+      <div className="border border-gray-300 rounded-md p-6 w-full lg:w-1/3 mx-auto">
+        <h3 className="text-lg font-semibold text-gray-800 mb-6">Cart Total</h3>
+        <div className="space-y-4">
+          <div className="flex justify-between text-gray-700">
+            <span>Subtotal:</span>
+            <span>${calculateTotal()}</span>
           </div>
-          <Link to="/billing">
-            <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
-              Proceed to Checkout
-            </button>
-          </Link>
+          <div className="flex justify-between text-gray-700">
+            <span>Shipping:</span>
+            <span className="text-green-500">Free</span>
+          </div>
+          <div className="flex justify-between border-t border-gray-200 pt-4 text-gray-900 font-semibold">
+            <span>Total:</span>
+            <span>${calculateTotal()}</span>
+          </div>
         </div>
+        <Link to="/billing">
+          <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
+            Proceed to Checkout
+          </button>
+        </Link>
       </div>
     </div>
   );

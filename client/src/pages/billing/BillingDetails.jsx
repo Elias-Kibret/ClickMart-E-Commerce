@@ -3,8 +3,11 @@ import visaIcon from "../../Assests/Visa.png";
 import mastercardIcon from "../../Assests/masterCard.png";
 import product1 from "../../Assests/product1.png";
 import product2 from "../../Assests/product2.png";
-
+import { useSelector, useDispatch } from "react-redux";
 export const BillingDetails = () => {
+  const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
+  const total = cart.reduce((acc, cur) => acc + cur.subtotal, 0); // Calculate the total
+
   return (
     <div className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-12 p-4 lg:p-8 w-full max-w-screen-xl mx-auto">
       {/* Billing Details Form */}
@@ -77,10 +80,7 @@ export const BillingDetails = () => {
 
         {/* Product List */}
         <div className="space-y-4">
-          {[
-            { name: "LCD Monitor", price: "$650", image: product1 },
-            { name: "H1 Gamepad", price: "$1100", image: product2 },
-          ].map(({ name, price, image }, index) => (
+          {cart?.map(({ name, price, image, subtotal }, index) => (
             <div
               key={index}
               className="flex items-center justify-between border-b pb-4"
@@ -91,7 +91,7 @@ export const BillingDetails = () => {
                 className="w-14 h-14 object-cover rounded-md"
               />
               <p className="flex-1 pl-4 text-gray-800 font-medium">{name}</p>
-              <p className="text-gray-800 font-semibold">{price}</p>
+              <p className="text-gray-800 font-semibold">{subtotal}</p>
             </div>
           ))}
 
@@ -99,7 +99,7 @@ export const BillingDetails = () => {
           <div className="space-y-2">
             <div className="flex justify-between text-gray-700">
               <p className="font-medium">Subtotal:</p>
-              <p className="font-semibold">$1750</p>
+              <p className="font-semibold">${total}</p>
             </div>
             <div className="flex justify-between text-gray-700">
               <p className="font-medium">Shipping:</p>
@@ -107,7 +107,7 @@ export const BillingDetails = () => {
             </div>
             <div className="flex justify-between border-t pt-4 text-gray-900">
               <p className="text-lg font-semibold">Total:</p>
-              <p className="text-lg font-bold">$1750</p>
+              <p className="text-lg font-bold">${total}</p>
             </div>
           </div>
         </div>

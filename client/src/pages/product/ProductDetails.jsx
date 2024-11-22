@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { MdLocalShipping, MdOutlineReplay } from "react-icons/md";
+import { useLocation } from "react-router-dom";
 
 // Sample product data
 const products = [
@@ -43,7 +44,9 @@ const products = [
 
 export const ProductDetails = ({ productId }) => {
   // Fetch product based on productId (assuming a dynamic productId)
-  const product = products.find((p) => p.productId === productId);
+  let { state } = useLocation();
+  
+  const product = state;
 
   const [selectedImage, setSelectedImage] = useState(product.relatedImages[0]);
   const [quantity, setQuantity] = useState(1);
