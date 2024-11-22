@@ -35,7 +35,7 @@ export const Header = () => {
     open: { opacity: 1, y: 0, display: "block" },
     closed: { opacity: 0, y: -20, transitionEnd: { display: "none" } },
   };
-  useEffect(() => {}, [user]);
+  // useEffect(() => {}, [user]);
 
   return (
     <header className="bg-white border-b">

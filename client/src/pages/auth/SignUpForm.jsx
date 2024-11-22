@@ -56,6 +56,8 @@ export const SignUpForm = () => {
 
           console.log(response); // Extract JWT and role from response
           localStorage.setItem("token", jwt);
+          localStorage.setItem("role", role);
+          localStorage.setItem("active", userAccountStatus);
 
           dispatch(
             setUser({ name: name, role: role, active: userAccountStatus })
