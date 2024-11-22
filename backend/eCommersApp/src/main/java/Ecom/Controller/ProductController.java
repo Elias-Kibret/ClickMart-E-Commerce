@@ -5,6 +5,7 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 import Ecom.Model.Product;
@@ -19,6 +20,7 @@ public class ProductController {
 
     private final ProductService productService;
 
+    @PreAuthorize("hasRole('SELLER')")
     @PostMapping("/add")
     public ResponseEntity<Product> addProduct(@Valid @RequestBody Product product) {
         Product newProduct = productService.addProduct(product);

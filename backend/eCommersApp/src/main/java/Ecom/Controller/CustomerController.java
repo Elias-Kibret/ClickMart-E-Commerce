@@ -2,18 +2,11 @@ package Ecom.Controller;
 
 import java.util.List;
 
+import Ecom.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import Ecom.Model.User;
+import org.springframework.web.bind.annotation.*;
 import Ecom.ModelDTO.CustomerDTO;
 import Ecom.ModelDTO.UserDTO;
 import Ecom.Service.UserService;
@@ -38,21 +31,21 @@ public class CustomerController {
 
     @PutMapping("/update-password/{customerId}")
     public ResponseEntity<User> updateUserPassword(@PathVariable("customerId") Integer customerId,
-                                                  @Valid @RequestBody UserDTO userdto) {
+                                                                   @Valid @RequestBody UserDTO userdto) {
         User updatedUser = userService.changePassword(customerId, userdto);
         return ResponseEntity.ok(updatedUser);
     }
 
-    @DeleteMapping("/deactivate/{customerid}")
-    public ResponseEntity<String> deactivateUser(@PathVariable("customerid") Integer customerId) {
+    @DeleteMapping("/activate/{customerid}")
+    public ResponseEntity<String> activateUser(@PathVariable("customerid") Integer customerId) {
         System.out.println("inside the deactivate method");
-        String message = userService.deactivateUser(customerId);
+        String message = userService.activateSeller(customerId);
         return ResponseEntity.ok(message);
     }
 
     @GetMapping("/{customerid}")
     public ResponseEntity<User> getUserDetails(@PathVariable("customerid") Integer customerId) {
-        User user = userService.getUserDetails(customerId);
+       User user = userService.getUserDetails(customerId);
         return ResponseEntity.ok(user);
     }
 
@@ -62,4 +55,9 @@ public class CustomerController {
         return ResponseEntity.ok(users);
     }
 
+    @GetMapping()
+    public ResponseEntity<User> getUserByEmail(@RequestParam String email) {
+        User user = userService.getUserByEmail(email);
+        return ResponseEntity.ok(user);
+    }
 }

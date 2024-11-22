@@ -5,17 +5,14 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import Ecom.Controller.OrderController;
+import Ecom.Model.*;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import Ecom.Enum.OrderStatus;
 import Ecom.Exception.OrdersException;
 import Ecom.Exception.UserException;
-import Ecom.Model.Cart;
-import Ecom.Model.CartItem;
-import Ecom.Model.OrderItem;
-import Ecom.Model.Orders;
-import Ecom.Model.User;
 import Ecom.ModelDTO.OrdersDTO;
 import Ecom.Repository.CartItemRepository;
 import Ecom.Repository.CartRepository;

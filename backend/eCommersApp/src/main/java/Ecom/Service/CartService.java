@@ -9,6 +9,7 @@ import Ecom.Model.Product;
 public interface CartService {
 	
 	public Cart addProductToCart(Integer userId, Integer productId) throws CartException;
+//	public Cart addCart(Cart cart) throws CartException;
 	
 	public Cart increaseProductQuantity(Integer cartId,Integer quantity) throws CartException;
 	

@@ -1,5 +1,6 @@
 package Ecom.Model;
 
+import Ecom.Controller.OrderController;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import jakarta.persistence.Column;

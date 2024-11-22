@@ -2,6 +2,8 @@ package Ecom.ServiceImpl;
 
 import java.util.List;
 
+import Ecom.Controller.OrderController;
+import Ecom.Model.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import Ecom.Exception.CartException;
@@ -10,7 +12,6 @@ import Ecom.Exception.UserException;
 import Ecom.Model.Cart;
 import Ecom.Model.CartItem;
 import Ecom.Model.Product;
-import Ecom.Model.User;
 import Ecom.Repository.CartItemRepository;
 import Ecom.Repository.CartRepository;
 import Ecom.Repository.ProductRepository;
@@ -25,6 +26,14 @@ public class CartServiceImpl implements CartService {
 	private final CartRepository cartRepository;
 	private final CartItemRepository cartItemRepository;
 	private final UserRepository userRepository;
+
+
+//	@Override
+//	public Cart addCart(Cart cart) throws CartException {
+//		if (cart == null)
+//			throw new CartException("Cart Can not be Null");
+//		return cartRepository.save(cart);
+//	}
 
 	@Override
 	public Cart addProductToCart(Integer userId, Integer productId) throws CartException {

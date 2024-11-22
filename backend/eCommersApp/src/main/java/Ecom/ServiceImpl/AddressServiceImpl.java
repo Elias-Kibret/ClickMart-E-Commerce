@@ -2,14 +2,13 @@ package Ecom.ServiceImpl;
 
 import java.util.List;
 
+import Ecom.Controller.OrderController;
+import Ecom.Model.User;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import Ecom.Exception.AddressException;
-import Ecom.Exception.UserException;
 import Ecom.Model.Address;
-import Ecom.Model.User;
 import Ecom.Repository.AddressRepository;
 import Ecom.Repository.UserRepository;
 import Ecom.Service.AddressService;

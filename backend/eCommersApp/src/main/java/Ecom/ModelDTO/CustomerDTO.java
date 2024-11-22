@@ -1,5 +1,6 @@
 package Ecom.ModelDTO;
 
+import Ecom.Enum.UserRole;
 import jakarta.persistence.Column;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
@@ -19,16 +20,19 @@ public class CustomerDTO {
 	@Size(max = 10,min = 5,message = "Password length should be more than 5 Character")
 	private String password;
 
-	@NotNull(message = "First can Not be Null")
-	@NotBlank(message = "First Name can not be blank")
-	private String firstName;
+	@NotNull(message = "name can Not be Null")
+	@NotBlank(message = "Name can not be blank")
+	private String name;
 
-	@NotNull(message = "Last can Not be Null")
-	@NotBlank(message = "Last Name can not be blank")
-	private String lastName;
+	@NotNull(message = "role can Not be Null")
+	private UserRole role;
 
-	@NotNull(message = "Phone Number can Not be Null")
-	@NotBlank(message = "Phone Number can not be blank")
-	@Size(max = 10,min = 10,message = "Phone Number should be minumum 10 digit max 12")
-	private String phoneNumber;
+//	@NotNull(message = "Last can Not be Null")
+//	@NotBlank(message = "Last Name can not be blank")
+//	private String lastName;
+//
+//	@NotNull(message = "Phone Number can Not be Null")
+//	@NotBlank(message = "Phone Number can not be blank")
+//	@Size(max = 10,min = 10,message = "Phone Number should be minumum 10 digit max 12")
+//	private String phoneNumber;
 }

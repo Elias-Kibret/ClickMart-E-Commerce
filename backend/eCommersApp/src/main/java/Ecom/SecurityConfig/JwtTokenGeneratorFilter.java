@@ -1,10 +1,7 @@
 package Ecom.SecurityConfig;
 
 import java.io.IOException;
-import java.util.Collection;
-import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 import javax.crypto.SecretKey;
 
@@ -20,51 +17,21 @@ import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
-public class JwtTokenGeneratorFilter extends OncePerRequestFilter {
+public class JwtTokenGeneratorFilter {
 
-	@Override
-	protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
-			throws ServletException, IOException {
-		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+    private static final SecretKey KEY = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
 
-        if (null != authentication) {
-
-            SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
-
-            String jwt = Jwts.builder()
-            		.setIssuer("e-commerse")
-            		.setSubject("JWT Token")
-                    .claim("username", authentication.getName())
-                    .claim("authorities", populateAuthorities(authentication.getAuthorities()))
-                    .setIssuedAt(new Date())
-                    .setExpiration(new Date(new Date().getTime()+ 30000000))
-                    .signWith(key).compact();
-            response.setHeader(SecurityConstants.JWT_HEADER, jwt);
-
-        }
-        filterChain.doFilter(request, response);
-
-	}
-
-    private String populateAuthorities(Collection<? extends GrantedAuthority> collection) {
-
-    	Set<String> authoritiesSet = new HashSet<>();
-
-        for (GrantedAuthority authority : collection) {
-            authoritiesSet.add(authority.getAuthority());
-
-        }
-        return String.join(",", authoritiesSet);
-
-
+    public static String generateToken(String username, String role, List<String> authorities) {
+        return Jwts.builder()
+                .setIssuer("ecommerce-app")
+                .setSubject(username) // Set subject to username/email
+                .claim("username", username) // Include username as a claim
+                .claim("role", role) // Include role
+                .claim("authorities", String.join(",", authorities)) // Include authorities as a comma-separated string
+                .setIssuedAt(new Date()) // Token issued at time
+                .setExpiration(new Date(System.currentTimeMillis() + 30000000)) // Token expiration
+                .signWith(KEY) // Sign the token
+                .compact();
     }
-
-	@Override
-	protected boolean shouldNotFilter(HttpServletRequest request) throws ServletException {
-
-        return !request.getServletPath().equals("/ecom/signIn");
-	}
-
-
-
 }
+

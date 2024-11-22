@@ -1,5 +1,7 @@
 package Ecom.Controller;
 
+import Ecom.Model.Product;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,6 +16,12 @@ import Ecom.Service.CartService;
 public class CartController {
 
     private final CartService cartService;
+
+//    @PostMapping("/add")
+//    public ResponseEntity<Cart> addCart(@Valid @RequestBody Cart cart) {
+//        Cart newCart = cartService.addCart(cart);
+//        return new ResponseEntity<>(newCart, HttpStatus.CREATED);
+//    }
 
     @PostMapping("/add-product")
     public ResponseEntity<Cart> addProductToCart(@RequestParam Integer userId, @RequestParam Integer productId) {

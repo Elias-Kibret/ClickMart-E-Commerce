@@ -2,6 +2,8 @@ package Ecom.ServiceImpl;
 
 import java.time.LocalDateTime;
 
+import Ecom.Controller.OrderController;
+import Ecom.Model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,7 +14,6 @@ import Ecom.Exception.PaymentException;
 import Ecom.Exception.UserException;
 import Ecom.Model.Orders;
 import Ecom.Model.Payment;
-import Ecom.Model.User;
 import Ecom.Repository.OrderRepository;
 import Ecom.Repository.PaymentRepository;
 import Ecom.Repository.UserRepository;
@@ -33,7 +34,7 @@ public class PaymentServiceImpl implements PaymentService {
     @Override
     public Payment makePayment(Integer orderId, Integer userId) throws PaymentException {
 
-        User existingUser = userRepository.findById(userId)
+       User existingUser = userRepository.findById(userId)
                 .orElseThrow(() -> new UserException("User not found in the database."));
 
         Orders order = orderRepository.findById(orderId)

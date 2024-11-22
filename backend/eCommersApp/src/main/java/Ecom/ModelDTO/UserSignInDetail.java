@@ -9,8 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class UserSignInDetail {
     Integer id;
-    String firstNAme;
-    String lastName;
+    String name;
     String signinStatus;
 
 }

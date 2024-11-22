@@ -3,17 +3,15 @@ package Ecom.ServiceImpl;
 import java.time.LocalDateTime;
 import java.util.List;
 
+import Ecom.Controller.OrderController;
+import Ecom.Model.User;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import Ecom.Exception.ProductException;
 import Ecom.Exception.ReviewException;
-import Ecom.Exception.UserException;
 import Ecom.Model.Product;
 import Ecom.Model.Review;
-import Ecom.Model.User;
 import Ecom.Repository.ProductRepository;
 import Ecom.Repository.ReviewRepository;
 import Ecom.Repository.UserRepository;

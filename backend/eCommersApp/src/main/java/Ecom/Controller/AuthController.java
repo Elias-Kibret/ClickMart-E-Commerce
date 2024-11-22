@@ -1,8 +1,11 @@
 package Ecom.Controller;
 
+import Ecom.Model.User;
 import Ecom.ModelDTO.LoginRequest;
 import Ecom.ModelDTO.LoginResponse;
+import Ecom.SecurityConfig.JwtTokenGeneratorFilter;
 import Ecom.SecurityConfig.SecurityConstants;
+import Ecom.Service.UserService;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.security.Keys;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,22 +24,25 @@ public class AuthController {
     @Autowired
     private AuthenticationManager authenticationManager;
 
+    @Autowired
+    private UserService userService;
+
+
     @PostMapping("/login")
     public LoginResponse login(@RequestBody LoginRequest request) {
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword())
         );
 
-        SecretKey key = Keys.hmacShaKeyFor(SecurityConstants.JWT_KEY.getBytes());
-        String jwt = Jwts.builder()
-                .setIssuer("ecommerce-app")
-                .setSubject("JWT Token")
-                .claim("username", authentication.getName())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + 30000000))
-                .signWith(key)
-                .compact();
+        User user = userService.getUserByEmail(request.getUsername());
+        String jwt = JwtTokenGeneratorFilter.generateToken(
+                user.getEmail(),
+                "ROLE_" + user.getRole().name(), // Add ROLE_ prefix
+                authentication.getAuthorities().stream()
+                        .map(auth -> auth.getAuthority())
+                        .toList() // Collect authorities as a list
+        );
 
-        return new LoginResponse("Login successful", jwt);
+        return new LoginResponse("Login successful", jwt, user, user.getRole());
     }
 }
