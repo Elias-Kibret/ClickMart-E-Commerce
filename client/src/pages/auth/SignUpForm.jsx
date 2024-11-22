@@ -51,13 +51,12 @@ export const SignUpForm = () => {
         });
 
         if (response) {
-          const { jwt, name, userAccountStatus } = response.user;
-          const { role } = response;
+          const { name, userAccountStatus } = response.user;
+
+          const { role, jwt } = response;
 
           console.log(response); // Extract JWT and role from response
           localStorage.setItem("token", jwt);
-          localStorage.setItem("role", role);
-          localStorage.setItem("active", userAccountStatus);
 
           dispatch(
             setUser({ name: name, role: role, active: userAccountStatus })
@@ -75,7 +74,8 @@ export const SignUpForm = () => {
               state: data,
             });
           } else if (role === "SELLER") {
-            navigate("/seller-dashboard");
+            // navigate("/seller-dashboard");
+            navigate("/add-product");
           } else if (role === "ADMIN") {
             navigate("/admin-dashboard");
           } else {

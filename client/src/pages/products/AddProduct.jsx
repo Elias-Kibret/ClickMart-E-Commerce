@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { productApi } from "../../api/modules/product.api"; // Import your productApi
 
 export const AddProduct = () => {
   const [product, setProduct] = useState({
@@ -13,6 +14,8 @@ export const AddProduct = () => {
     available: true,
     quantity: 0,
   });
+
+  const [isSubmitting, setIsSubmitting] = useState(false); // Loading state for submission
 
   // Handle input changes
   const handleChange = (e) => {
@@ -45,10 +48,31 @@ export const AddProduct = () => {
   };
 
   // Handle form submission
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Product Submitted:", product);
-    // Here you can add a function to send the product data to an API or backend
+    setIsSubmitting(true); // Start loading state
+    try {
+      const response = await productApi.addProduct(product); // Call the API
+      console.log("Product Added Successfully:", response);
+      alert("Product added successfully!");
+      setProduct({
+        name: "",
+        imageUrl: "",
+        description: "",
+        price: "",
+        category: "",
+        relatedImages: [],
+        colors: [],
+        sizes: [],
+        available: true,
+        quantity: 0,
+      }); // Reset form
+    } catch (error) {
+      console.error("Failed to add product:", error);
+      alert("Failed to add product. Please try again.");
+    } finally {
+      setIsSubmitting(false); // End loading state
+    }
   };
 
   return (
@@ -219,13 +243,14 @@ export const AddProduct = () => {
         {/* Submit Button */}
         <button
           type="submit"
-          className="block w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600"
+          disabled={isSubmitting}
+          className={`block w-full py-2 rounded-md text-white ${
+            isSubmitting ? "bg-gray-400" : "bg-blue-500 hover:bg-blue-600"
+          }`}
         >
-          Add Product
+          {isSubmitting ? "Submitting..." : "Add Product"}
         </button>
       </form>
     </div>
   );
 };
-
-export default AddProduct;
