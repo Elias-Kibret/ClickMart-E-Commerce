@@ -12,7 +12,7 @@ import lombok.RequiredArgsConstructor;
 @RestController
 @RequestMapping("/ecom/order-shipping")
 @RequiredArgsConstructor
-public class ShippingController {
+public class  ShippingController {
 
     private final ShippingService shippingService;
 

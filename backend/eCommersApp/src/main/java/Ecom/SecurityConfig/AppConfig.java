@@ -32,8 +32,8 @@ public class AppConfig {
                     auth.requestMatchers(HttpMethod.POST, "/ecom/login").permitAll(); // Allow login without token
                     auth.requestMatchers(HttpMethod.POST, "/ecom/customers").permitAll();
                     auth.requestMatchers(HttpMethod.GET, "/ecom/products/**").permitAll();
-//                    auth.requestMatchers(HttpMethod.POST, "/ecom/products/**").permitAll();
                    auth.requestMatchers(HttpMethod.POST, "/ecom/products/**").hasRole("SELLER");
+                    auth.requestMatchers(HttpMethod.POST, "/ecom/cart/**").hasRole("BUYER");
                     auth.anyRequest().authenticated(); // Require token for all other endpoints
                 })
                 .addFilterBefore(new JwtTokenValidatorFilter(), UsernamePasswordAuthenticationFilter.class);

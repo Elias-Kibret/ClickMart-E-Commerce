@@ -37,7 +37,7 @@ public class CustomerController {
     }
 
     @DeleteMapping("/activate/{customerid}")
-    public ResponseEntity<String> activateUser(@PathVariable("customerid") Integer customerId) {
+    public ResponseEntity<String> activateSeller(@PathVariable("customerid") Integer customerId) {
         System.out.println("inside the deactivate method");
         String message = userService.activateSeller(customerId);
         return ResponseEntity.ok(message);

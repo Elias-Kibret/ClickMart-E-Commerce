@@ -24,13 +24,6 @@ public class AdminController {
 
     private final PasswordEncoder passwordEncoder;
 
-//    @PostMapping
-//    public ResponseEntity<User> addUser(@RequestBody AdminDTO user) {
-//        user.setPassword(passwordEncoder.encode(user.getPassword()));
-//       User addedUser = userService.addUserAdmin(user);
-//        return ResponseEntity.ok(addedUser);
-//    }
-
     @PutMapping("/updatepassword/{adminId}")
     public ResponseEntity<User> updateUserPassword(@PathVariable("adminId") Integer customerId, @RequestBody UserDTO userdto) {
        User updatedUser = userService.changePassword(customerId, userdto);
