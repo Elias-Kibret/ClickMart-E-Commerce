@@ -6,6 +6,7 @@ import {
   Layout,
   ProductDetails,
   SellerDashBoard,
+  AddProduct,
 } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
@@ -37,6 +38,11 @@ export const router = createBrowserRouter([
       {
         path: "seller-dashboard",
         element: <SellerDashBoard />,
+      },
+
+      {
+        path: "add-product",
+        element: <AddProduct />,
       },
       {
         path: "products",

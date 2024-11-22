@@ -6,6 +6,7 @@ import { BillingDetails } from "./billing/BillingDetails";
 import { Products } from "./products/Products";
 import { ProductDetails } from "./product/ProductDetails";
 import { SellerDashBoard } from "./seller/SellerDashBoard";
+import { AddProduct } from "./products/AddProduct";
 export {
   Layout,
   Cart,
@@ -15,4 +16,5 @@ export {
   Products,
   ProductDetails,
   SellerDashBoard,
+  AddProduct,
 };
