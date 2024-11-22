@@ -1,8 +1,11 @@
 import React, { useState } from "react";
 import { motion } from "framer-motion";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import authImage from "../../Assests/auth.png"; // Ensure the image path is correct
 import authApi from "../../api/modules/auth.api";
-
+import { setUser, selectUser } from "../../features/user/userSlice";
+import { useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 export const SignUpForm = () => {
   const [isLogin, setIsLogin] = useState(true); // Default to Login Form
   const [formData, setFormData] = useState({
@@ -12,6 +15,8 @@ export const SignUpForm = () => {
     role: "BUYER", // Default role for sign-up in uppercase
   });
 
+  const navigate = useNavigate(); // React Router navigation hook
+  const dispatch = useDispatch();
   const handleFormToggle = () => {
     setIsLogin((prevState) => !prevState); // Toggle between Login and Sign-Up forms
     setFormData({
@@ -21,7 +26,7 @@ export const SignUpForm = () => {
       role: "BUYER",
     }); // Reset form data when toggling
   };
-
+  const user = useSelector(selectUser);
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prevData) => ({
@@ -32,31 +37,68 @@ export const SignUpForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+
     if (isLogin) {
+      // Handle Login
       console.log("Logging in with:", {
         email: formData.email,
         password: formData.password,
       });
       try {
-        const res = await authApi.signin({
+        const { response, err } = await authApi.signin({
           username: formData.email,
           password: formData.password,
         });
-        console.log(res);
+
+        if (response) {
+          const { jwt, name, userAccountStatus } = response.user;
+          const { role } = response;
+
+          console.log(response); // Extract JWT and role from response
+          localStorage.setItem("token", jwt);
+        
+          dispatch(
+            setUser({ name: name, role: role, active: userAccountStatus })
+          );
+          console.log(name, role);
+
+          console.log(user);
+          // Redirect based on role
+          if (role === "BUYER") {
+            navigate("/");
+          } else if (role === "SELLER") {
+            navigate("/seller-dashboard");
+          } else if (role === "ADMIN") {
+            navigate("/admin-dashboard");
+          } else {
+            console.error("Unknown role:", role);
+          }
+        } else if (err) {
+          console.error("Login failed:", err);
+        }
       } catch (error) {
-        console.error(error);
+        console.error("Login error:", error);
       }
     } else {
+      // Handle Sign-Up
+      console.log("Signing up with:", formData);
       try {
-        const res = await authApi.signup({
+        const { response, err } = await authApi.signup({
           name: formData.name,
           email: formData.email,
-          password: formData.email,
+          password: formData.password,
           role: formData.role,
         });
-        console.log(res);
+
+        if (response) {
+          alert("Sign-Up Successful! Please log in.");
+          setIsLogin(true); // Redirect to the login page
+        } else if (err) {
+          alert("Sign-Up Failed. Please try again.");
+        }
       } catch (error) {
-        console.error(error);
+        alert("Sign-Up Failed. Please try again.");
+        console.error("Sign-up error:", error);
       }
     }
   };
@@ -164,7 +206,7 @@ export const SignUpForm = () => {
                   <input
                     type="radio"
                     name="role"
-                    value="buyer"
+                    value="BUYER"
                     checked={formData.role === "BUYER"}
                     onChange={handleChange}
                     className="text-blue-500 focus:ring-blue-500"
@@ -175,7 +217,7 @@ export const SignUpForm = () => {
                   <input
                     type="radio"
                     name="role"
-                    value="seller"
+                    value="SELLER"
                     checked={formData.role === "SELLER"}
                     onChange={handleChange}
                     className="text-blue-500 focus:ring-blue-500"

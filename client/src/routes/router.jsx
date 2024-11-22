@@ -1,5 +1,12 @@
 import { createBrowserRouter } from "react-router-dom";
-import { BillingDetails, Cart, Home, Layout, ProductDetails } from "../pages";
+import {
+  BillingDetails,
+  Cart,
+  Home,
+  Layout,
+  ProductDetails,
+  SellerDashBoard,
+} from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
 
@@ -28,6 +35,10 @@ export const router = createBrowserRouter([
         element: <ProductDetails />,
       },
       {
+        path: "seller-dashboard",
+        element: <SellerDashBoard />,
+      },
+      {
         path: "products",
         element: <Products />,
 
@@ -42,6 +53,7 @@ export const router = createBrowserRouter([
           },
         ],
       },
+      {},
     ],
     element: <Layout />,
   },

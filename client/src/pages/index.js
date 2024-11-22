@@ -5,6 +5,7 @@ import { Home } from "./home/Home";
 import { BillingDetails } from "./billing/BillingDetails";
 import { Products } from "./products/Products";
 import { ProductDetails } from "./product/ProductDetails";
+import { SellerDashBoard } from "./seller/SellerDashBoard";
 export {
   Layout,
   Cart,
@@ -13,4 +14,5 @@ export {
   BillingDetails,
   Products,
   ProductDetails,
+  SellerDashBoard,
 };
