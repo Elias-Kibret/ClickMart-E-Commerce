@@ -7,6 +7,9 @@ import {
   ProductDetails,
   SellerDashBoard,
   AddProduct,
+  AdminDashboard,
+  ReviewsTab,
+  ApprovalTab,
 } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
@@ -43,6 +46,18 @@ export const router = createBrowserRouter([
       {
         path: "add-product",
         element: <AddProduct />,
+      },
+      {
+        path: "admin-dashboard",
+        element: <AdminDashboard />,
+      },
+      {
+        path: "approvals",
+        element: <ApprovalTab />,
+      },
+      {
+        path: "reviews",
+        element: <ReviewsTab />,
       },
       {
         path: "products",

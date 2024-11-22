@@ -7,6 +7,10 @@ import { Products } from "./products/Products";
 import { ProductDetails } from "./product/ProductDetails";
 import { SellerDashBoard } from "./seller/SellerDashBoard";
 import { AddProduct } from "./products/AddProduct";
+import { AdminDashboard } from "./admin/AdminDashboard";
+import { ReviewsTab } from "./admin/ReviewsTab";
+import { ApprovalTab } from "./admin/ApprovalTab";
+
 export {
   Layout,
   Cart,
@@ -17,4 +21,7 @@ export {
   ProductDetails,
   SellerDashBoard,
   AddProduct,
+  AdminDashboard,
+  ApprovalTab,
+  ReviewsTab,
 };

@@ -1,23 +1,17 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import {
-  removeItem,
-  updateQuantity,
-  clearCart,
-} from "../../features/cart/cartSlice";
+import { removeItem, updateQuantity } from "../../features/cart/cartSlice";
+import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 
 export const Cart = () => {
   const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
   const dispatch = useDispatch();
-  console.log(cart);
 
   // Handle quantity changes
-  const handleQuantityChange = (id, quantity) => {
-    if (quantity <= 0) {
-      dispatch(removeItem(id)); // Remove item if quantity is zero or less
-    } else {
-      dispatch(updateQuantity({ id, quantity }));
+  const handleQuantityChange = (id, newQuantity, maxQuantity) => {
+    if (newQuantity >= 1 && newQuantity <= maxQuantity) {
+      dispatch(updateQuantity({ id, quantity: newQuantity })); // Update the cart quantity
     }
   };
 
@@ -59,22 +53,53 @@ export const Cart = () => {
                     ${product.price.toFixed(2)}
                   </td>
                   <td className="py-4 px-4 text-center">
-                    <select
-                      className="border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
-                      value={product.quantity}
-                      onChange={(e) =>
-                        handleQuantityChange(
-                          product.id,
-                          parseInt(e.target.value, 10)
-                        )
-                      }
-                    >
-                      {[...Array(product.maxQuantity)].map((_, i) => (
-                        <option key={i} value={i + 1}>
-                          {i + 1}
-                        </option>
-                      ))}
-                    </select>
+                    <div className="flex items-center justify-center space-x-2">
+                      {/* Decrement Button */}
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            product.id,
+                            product.quantity - 1,
+                            product.maxQuantity
+                          )
+                        }
+                        disabled={product.quantity <= 1}
+                        className="px-2 py-1 text-gray-700 hover:bg-gray-200 rounded"
+                      >
+                        <AiOutlineMinus />
+                      </button>
+
+                      {/* Quantity Display */}
+                      <input
+                        type="number"
+                        value={product.quantity}
+                        onChange={(e) =>
+                          handleQuantityChange(
+                            product.id,
+                            parseInt(e.target.value, 10),
+                            product.maxQuantity
+                          )
+                        }
+                        className="w-16 text-center border border-gray-300 rounded"
+                        min="1"
+                        max={product.maxQuantity}
+                      />
+
+                      {/* Increment Button */}
+                      <button
+                        onClick={() =>
+                          handleQuantityChange(
+                            product.id,
+                            product.quantity + 1,
+                            product.maxQuantity
+                          )
+                        }
+                        disabled={product.quantity >= product.maxQuantity}
+                        className="px-2 py-1 text-gray-700 hover:bg-gray-200 rounded"
+                      >
+                        <AiOutlinePlus />
+                      </button>
+                    </div>
                   </td>
                   <td className="py-4 px-4 text-center text-gray-800">
                     ${(product.price * product.quantity).toFixed(2)}
@@ -114,22 +139,53 @@ export const Cart = () => {
                 </div>
               </div>
               <div className="flex justify-between items-center mt-4">
-                <select
-                  className="border border-gray-300 rounded-md px-3 py-2 focus:ring-blue-500 focus:border-blue-500"
-                  value={product.quantity}
-                  onChange={(e) =>
-                    handleQuantityChange(
-                      product.id,
-                      parseInt(e.target.value, 10)
-                    )
-                  }
-                >
-                  {[...Array(product.maxQuantity)].map((_, i) => (
-                    <option key={i} value={i + 1}>
-                      {i + 1}
-                    </option>
-                  ))}
-                </select>
+                <div className="flex items-center space-x-2">
+                  {/* Decrement Button */}
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(
+                        product.id,
+                        product.quantity - 1,
+                        product.quantity
+                      )
+                    }
+                    disabled={product.quantity <= 1}
+                    className="px-2 py-1 text-gray-700 hover:bg-gray-200 rounded"
+                  >
+                    <AiOutlineMinus />
+                  </button>
+
+                  {/* Quantity Display */}
+                  <input
+                    type="number"
+                    value={product.quantity}
+                    onChange={(e) =>
+                      handleQuantityChange(
+                        product.id,
+                        parseInt(e.target.value, 10),
+                        product.maxQuantity
+                      )
+                    }
+                    className="w-16 text-center border border-gray-300 rounded"
+                    min="1"
+                    max={product.quantity}
+                  />
+
+                  {/* Increment Button */}
+                  <button
+                    onClick={() =>
+                      handleQuantityChange(
+                        product.id,
+                        product.quantity + 1,
+                        product.maxQuantity
+                      )
+                    }
+                    disabled={product.quantity >= product.maxQuantity}
+                    className="px-2 py-1 text-gray-700 hover:bg-gray-200 rounded"
+                  >
+                    <AiOutlinePlus />
+                  </button>
+                </div>
                 <p className="text-gray-800">
                   ${(product.price * product.quantity).toFixed(2)}
                 </p>

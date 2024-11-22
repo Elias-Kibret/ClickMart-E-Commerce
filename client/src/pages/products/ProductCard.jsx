@@ -1,17 +1,18 @@
 import React from "react";
-import { addItem } from "../../features/cart/cartSlice";
+import { addItem, removeItem } from "../../features/cart/cartSlice";
 import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const cart = useSelector((state) => state.cart.items);
-  console.log(cart);
 
+  // Check if the product is already in the cart
+  const isInCart = cart.some((cartItem) => cartItem.id === product.productId);
+
+  // Handle Add to Cart
   const handleAddToCart = (e) => {
     e.stopPropagation(); // Prevent card click event from triggering
-
-    // Prepare the product data in the format expected by `cartSlice`
     const cartItem = {
       id: product.productId, // Map productId to id as expected in the cartSlice
       name: product.name,
@@ -22,8 +23,13 @@ export const ProductCard = ({ product }) => {
       subtotal: product.price * 1,
       description: product.description,
     };
+    dispatch(addItem(cartItem)); // Dispatch the add action
+  };
 
-    dispatch(addItem(cartItem)); // Dispatch the action with the prepared product data
+  // Handle Remove from Cart
+  const handleRemoveFromCart = (e) => {
+    e.stopPropagation(); // Prevent card click event from triggering
+    dispatch(removeItem(product.productId)); // Dispatch the remove action
   };
 
   return (
@@ -80,15 +86,24 @@ export const ProductCard = ({ product }) => {
         </p>
       </div>
 
-      {/* Add to Cart Button */}
+      {/* Add/Remove Button */}
       <div className="px-6 pb-4">
-        <button
-          onClick={handleAddToCart}
-          className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
-          disabled={!product.available} // Disable button if the product is out of stock
-        >
-          Add to Cart
-        </button>
+        {isInCart ? (
+          <button
+            onClick={handleRemoveFromCart}
+            className="w-full bg-gradient-to-r from-red-500 to-pink-600 text-white font-semibold py-2 px-4 rounded shadow-md hover:from-pink-600 hover:to-red-500 transition-all duration-300"
+          >
+            Remove from Cart
+          </button>
+        ) : (
+          <button
+            onClick={handleAddToCart}
+            className="w-full bg-gradient-to-r from-blue-500 to-purple-600 text-white font-semibold py-2 px-4 rounded shadow-md hover:from-purple-600 hover:to-blue-500 transition-all duration-300"
+            disabled={!product.available} // Disable button if the product is out of stock
+          >
+            Add to Cart
+          </button>
+        )}
       </div>
     </div>
   );

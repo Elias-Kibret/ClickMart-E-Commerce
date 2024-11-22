@@ -54,6 +54,7 @@ export const Products = () => {
       sizes: ["S", "M", "L", "XL"],
       reviews: [],
       available: true,
+      quantity: 9,
     },
     {
       productId: 23,
@@ -77,6 +78,7 @@ export const Products = () => {
       sizes: ["S", "M", "L", "XL"],
       reviews: [],
       available: true,
+      quantity: 9,
     },
     {
       productId: 24,
@@ -100,6 +102,7 @@ export const Products = () => {
       sizes: ["S", "M", "L", "XL"],
       reviews: [],
       available: true,
+      quantity: 9,
     },
     {
       productId: 25,
@@ -123,10 +126,11 @@ export const Products = () => {
       sizes: ["S", "M", "L", "XL"],
       reviews: [],
       available: true,
+      quantity: 9,
     },
   ];
 
-  // console.log(allProducts);
+  console.log(allProducts);
   return (
     <div className="container mx-auto px-4 lg:px-8 flex gap-8 mt-10">
       {/* Sidebar */}
@@ -134,7 +138,7 @@ export const Products = () => {
 
       {/* Product Grid */}
       <div className="flex-1">
-        <ProductGrid product={product} />
+        <ProductGrid product={allProducts} />
 
         <Pagination />
       </div>

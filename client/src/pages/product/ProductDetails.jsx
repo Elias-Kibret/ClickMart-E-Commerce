@@ -2,62 +2,61 @@ import React, { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
 import { MdLocalShipping, MdOutlineReplay } from "react-icons/md";
 import { useLocation } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import {
+  addItem,
+  updateQuantity,
+  selectCart,
+} from "../../features/cart/cartSlice";
 
-// Sample product data
-const products = [
-  {
-    productId: 16,
-    name: "Casual Sneakers",
-    imageUrl:
-      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
-    description: "Comfortable sneakers for daily wear and casual outings.",
-    price: 39.99,
-    category: "Clothing",
-    relatedImages: [
-      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
-      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
-    ],
-    colors: ["red"],
-    sizes: ["S"],
-    reviews: [],
-    available: true,
-  },
-  {
-    productId: 17,
-    name: "Casual Sneakers",
-    imageUrl:
-      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
-    description: "Comfortable sneakers for daily wear and casual outings.",
-    price: 39.99,
-    category: "Clothing",
-    relatedImages: [
-      "https://cdn.shoplightspeed.com/shops/632185/files/50752500/dolce-casual-sneakers-red.jpg",
-      "https://m.media-amazon.com/images/I/61wbcy3qmkL._AC_UL320_.jpg",
-      "https://m.media-amazon.com/images/I/81+8BBmF7hL._AC_SY550_.jpg",
-    ],
-    colors: ["Black", "Lemon"],
-    sizes: ["S", "M", "L"],
-    reviews: [],
-    available: true,
-  },
-];
-
-export const ProductDetails = ({ productId }) => {
-  // Fetch product based on productId (assuming a dynamic productId)
-  let { state } = useLocation();
-  
-  const product = state;
+export const ProductDetails = () => {
+  const { state: product } = useLocation();
+  const dispatch = useDispatch();
+  const cart = useSelector(selectCart);
 
   const [selectedImage, setSelectedImage] = useState(product.relatedImages[0]);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState(2); // Start with a default quantity of 2
   const [selectedSize, setSelectedSize] = useState(product.sizes[0]);
   const [selectedColor, setSelectedColor] = useState(product.colors[0]);
 
+  // Check if product already exists in the cart
+  const cartItem = cart.find((item) => item.id === product.productId);
+  const maxAvailableQuantity = product.quantity - (cartItem?.quantity || 0);
+
   const handleQuantityChange = (type) => {
-    if (type === "increment") {
+    if (type === "increment" && quantity < maxAvailableQuantity) {
       setQuantity((prev) => prev + 1);
-    } else if (type === "decrement" && quantity > 1) {
+    } else if (type === "decrement" && quantity > 2) {
+      // Minimum quantity is now 2
       setQuantity((prev) => prev - 1);
+    }
+  };
+
+  const handleAddToCart = () => {
+    if (quantity <= maxAvailableQuantity) {
+      const cartData = {
+        id: product.productId,
+        name: product.name,
+        price: product.price,
+        quantity,
+        description: product.description,
+        image: product.imageUrl,
+      };
+
+      if (cartItem) {
+        dispatch(
+          updateQuantity({
+            id: product.productId,
+            quantity: cartItem.quantity + quantity,
+          })
+        );
+      } else {
+        dispatch(addItem(cartData));
+      }
+
+      alert("Product added to cart!");
+    } else {
+      alert("Cannot add more than available quantity.");
     }
   };
 
@@ -95,11 +94,6 @@ export const ProductDetails = ({ productId }) => {
           {product.name}
         </h1>
         <div className="flex items-center gap-2 mt-2 text-sm">
-          <div className="flex items-center text-yellow-500">
-            {"★".repeat(4)}{" "}
-            <span className="text-gray-400">{"★".repeat(1)}</span>
-          </div>
-          <p className="text-gray-500">({product.reviews.length} Reviews)</p>
           <p
             className={`font-medium ${
               product.available ? "text-green-600" : "text-red-600"
@@ -159,6 +153,7 @@ export const ProductDetails = ({ productId }) => {
             <button
               onClick={() => handleQuantityChange("decrement")}
               className="px-3 py-2 text-gray-500 hover:bg-gray-100"
+              disabled={quantity === 2} // Disable decrement button at quantity 2
             >
               <AiOutlineMinus />
             </button>
@@ -166,44 +161,17 @@ export const ProductDetails = ({ productId }) => {
             <button
               onClick={() => handleQuantityChange("increment")}
               className="px-3 py-2 text-gray-500 hover:bg-gray-100"
+              disabled={quantity >= maxAvailableQuantity}
             >
               <AiOutlinePlus />
             </button>
           </div>
-          <button className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600">
-            Buy Now
+          <button
+            onClick={handleAddToCart}
+            className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
+          >
+            Add to Cart
           </button>
-        </div>
-
-        {/* Delivery Information */}
-        <div className="mt-8 border rounded-lg divide-y w-[70%]">
-          {/* Free Delivery */}
-          <div className="flex items-center gap-4 p-4">
-            <MdLocalShipping size={28} className="text-gray-700" />
-            <div>
-              <p className="font-semibold text-gray-800">Free Delivery</p>
-              <p className="text-sm text-gray-600">
-                <span className="text-blue-500 underline cursor-pointer">
-                  Enter your postal code
-                </span>{" "}
-                for Delivery Availability
-              </p>
-            </div>
-          </div>
-
-          {/* Return Delivery */}
-          <div className="flex items-center gap-4 p-4">
-            <MdOutlineReplay size={28} className="text-gray-700" />
-            <div>
-              <p className="font-semibold text-gray-800">Return Delivery</p>
-              <p className="text-sm text-gray-600">
-                Free 30 Days Delivery Returns.{" "}
-                <span className="text-blue-500 underline cursor-pointer">
-                  Details
-                </span>
-              </p>
-            </div>
-          </div>
         </div>
       </div>
     </div>
