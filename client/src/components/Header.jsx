@@ -67,7 +67,7 @@ export const Header = () => {
       return (
         <>
           <Link
-            to="/seller-dashboard/myposts"
+            to="/my-products"
             className="hover:underline text-gray-700 font-medium"
           >
             My Products

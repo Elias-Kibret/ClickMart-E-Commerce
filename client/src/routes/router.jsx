@@ -11,6 +11,7 @@ import {
   ReviewsTab,
   ApprovalTab,
   About,
+  Sellerro,
 } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
@@ -63,6 +64,10 @@ export const router = createBrowserRouter([
       {
         path: "about",
         element: <About />,
+      },
+      {
+        path: "/my-products",
+        element: <Sellerro />,
       },
       {
         path: "products",
