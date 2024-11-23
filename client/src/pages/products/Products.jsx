@@ -31,7 +31,7 @@ export const Products = () => {
     } else {
       fetchProductsByCategory(category);
     }
-  }, [dispatch, category, allProducts]);
+  }, [dispatch, category]);
 
   // Fetch all products
   const fetchAllProducts = async () => {

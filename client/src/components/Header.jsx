@@ -114,7 +114,10 @@ export const Header = () => {
   return (
     <header className="bg-white border-b">
       <div className="container mx-auto px-4 py-4 flex justify-between items-center">
+        <Link to="/">
         <div className="text-xl font-bold md:pl-20">Exclusive</div>
+        </Link>
+       
 
         <nav className="hidden md:flex space-x-6 text-sm font-medium">
           {renderNavLinks()}
