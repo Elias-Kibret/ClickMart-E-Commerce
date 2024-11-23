@@ -1,8 +1,8 @@
 import axios from "axios";
 import queryString from "query-string";
 // for local and online site
-// const baseURL = "http://localhost:8080/api/v1/";
-const baseURL = "http://10.200.9.158:8080/ecom/";
+const baseURL = "http://localhost:8080/ecom/";
+// const baseURL = "http://10.200.9.158:8080/ecom/";
 
 const privateClient = axios.create({
   baseURL,
@@ -12,6 +12,7 @@ const privateClient = axios.create({
 });
 
 privateClient.interceptors.request.use(async (config) => {
+  console.log(config);
   return {
     ...config,
     headers: {
