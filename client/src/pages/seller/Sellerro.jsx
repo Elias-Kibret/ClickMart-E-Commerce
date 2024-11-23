@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import SellerProduct from "./SellerProduct"; // Import the component
-
+import { useNavigate } from "react-router-dom";
 export const Sellerro = () => {
+  const navigate = useNavigate();
   const [products, setProducts] = useState([
     {
       productId: 8,
@@ -804,6 +805,7 @@ export const Sellerro = () => {
 
   const handleUpdate = (product) => {
     alert(`Redirecting to update page for ${product.name}`);
+    navigate("/update-products", { state: { product } });
     // Implement redirection or update logic here
   };
 
@@ -816,7 +818,7 @@ export const Sellerro = () => {
             key={index}
             product={product}
             onDelete={handleDelete}
-            onUpdate={handleUpdate}
+            onUpdate={() => handleUpdate(product)}
           />
         ))
       ) : (

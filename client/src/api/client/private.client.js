@@ -2,7 +2,7 @@ import axios from "axios";
 import queryString from "query-string";
 // for local and online site
 // const baseURL = "http://localhost:8080/ecom/";
-const baseURL = "http://10.200.8.13:8080/ecom/";
+const baseURL = "http://10.200.17.89:8080/ecom/";
 
 const privateClient = axios.create({
   baseURL,

@@ -169,7 +169,7 @@ export const ProductDetails = () => {
             onClick={handleAddToCart}
             className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
           >
-            Add to Cart test
+            Add to Cart
           </button>
         </div>
       </div>

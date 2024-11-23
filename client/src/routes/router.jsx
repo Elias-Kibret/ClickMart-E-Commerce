@@ -12,6 +12,7 @@ import {
   ApprovalTab,
   About,
   Sellerro,
+  UpdateProduct,
 } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
@@ -68,6 +69,10 @@ export const router = createBrowserRouter([
       {
         path: "/my-products",
         element: <Sellerro />,
+      },
+      {
+        path: "/update-products",
+        element: <UpdateProduct />,
       },
       {
         path: "products",

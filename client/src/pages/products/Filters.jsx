@@ -71,7 +71,7 @@ export const Filters = ({ category }) => {
   };
 
   return (
-    <aside className="w-64 bg-white p-6 rounded-md shadow-md">
+    <aside className="w-64 bg-white p-6 rounded-md shadow-md hidden md:block">
       {/* Category Title */}
       <div className="mb-6 text-center">
         <h3 className="text-xl font-bold text-gray-800 uppercase">

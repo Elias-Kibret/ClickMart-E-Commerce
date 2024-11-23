@@ -27,7 +27,7 @@ export const ApprovalTab = () => {
     };
 
     fetchAndFilterUsers();
-  }, [dispatch, pendingSellers]);
+  }, [dispatch]);
   console.log(pendingSellers);
   console.log(allUsers);
   const handleApproveSeller = async (sellerId) => {

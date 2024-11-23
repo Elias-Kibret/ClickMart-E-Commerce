@@ -12,6 +12,7 @@ import { ReviewsTab } from "./admin/ReviewsTab";
 import { ApprovalTab } from "./admin/ApprovalTab";
 import { About } from "./about/About";
 import { Sellerro } from "./seller/Sellerro";
+import { UpdateProduct } from "./products/UpdateProduct";
 
 export {
   Layout,
@@ -28,4 +29,5 @@ export {
   ReviewsTab,
   About,
   Sellerro,
+  UpdateProduct,
 };
