@@ -1,12 +1,16 @@
 import React from "react";
-import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { removeItem, updateQuantity } from "../../features/cart/cartSlice";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import orderApi from "../../api/modules/order.api";
+import { removeItem, updateQuantity } from "../../features/cart/cartSlice";
+import { addOrder } from "../../features/order/orderSlice";
+import { selectUser } from "../../features/user/userSlice";
 export const Cart = () => {
   const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
   const dispatch = useDispatch();
+  const user = useSelector(selectUser);
+  const navigate = useNavigate();
 
   // Handle quantity changes
   const handleQuantityChange = (id, newQuantity, maxQuantity) => {
@@ -20,6 +24,21 @@ export const Cart = () => {
     return cart
       .reduce((acc, item) => acc + item.price * item.quantity, 0)
       .toFixed(2);
+  };
+
+  //  Place order of the items added in the cart
+  const handlePlaceOrder = async (e) => {
+    e.preventDefault();
+    try {
+      const res = await orderApi.placeOrder(user?.userId);
+      console.log(res);
+      dispatch(addOrder(res.response));
+      localStorage.setItem("orderId", res.response.orderId);
+      navigate("/billing");
+    } catch (error) {
+      console.log(error);
+    }
+    console.log(user);
   };
 
   return (
@@ -218,11 +237,13 @@ export const Cart = () => {
             <span>${calculateTotal()}</span>
           </div>
         </div>
-        <Link to="/billing">
-          <button className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300">
-            Proceed to Checkout
-          </button>
-        </Link>
+
+        <button
+          onClick={handlePlaceOrder}
+          className="mt-6 w-full bg-red-500 text-white py-2 rounded-md text-lg font-medium hover:bg-red-600 focus:ring focus:ring-red-300"
+        >
+          Place Order
+        </button>
       </div>
     </div>
   );

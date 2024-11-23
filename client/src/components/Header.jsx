@@ -5,17 +5,17 @@ import {
   FiMenu,
   FiSearch,
   FiShoppingCart,
-  FiX,
   FiUser,
+  FiX,
 } from "react-icons/fi";
-import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { selectUser } from "../features/user/userSlice";
+import { Link, useNavigate } from "react-router-dom";
 import { selectCart } from "../features/cart/cartSlice";
+import { selectUser } from "../features/user/userSlice";
 
 export const Header = () => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-
+  const navigate = useNavigate();
   // Access user and cart data from Redux store
   const user = useSelector(selectUser); // Fetch logged-in user from Redux
   const cart = useSelector(selectCart); // Fetch cart items from Redux
@@ -100,6 +100,16 @@ export const Header = () => {
       </>
     );
   };
+  const handleLoginLogOut = () => {
+    const token = localStorage.getItem("token");
+    if (token) {
+      localStorage.removeItem("token");
+      navigate("/", { replace: true });
+      window.location.href = "/";
+    } else {
+      navigate("/auth");
+    }
+  };
 
   return (
     <header className="bg-white border-b">
@@ -108,9 +118,12 @@ export const Header = () => {
 
         <nav className="hidden md:flex space-x-6 text-sm font-medium">
           {renderNavLinks()}
-          <Link to="/auth" className="hover:underline">
+          <button
+            onClick={handleLoginLogOut}
+            className="text-black hover:underline focus:outline-none"
+          >
             {user?.name ? "Log Out" : "Sign In"}
-          </Link>
+          </button>
         </nav>
 
         <div className="flex items-center space-x-4 md:mr-10">
