@@ -1,35 +1,62 @@
 import React from "react";
-import { addItem, removeItem } from "../../features/cart/cartSlice";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
+import cartApi from "../../api/modules/cart.api";
+import { addItem, removeItem, selectCart } from "../../features/cart/cartSlice";
+import { selectUser } from "../../features/user/userSlice";
 
 export const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
-  const cart = useSelector((state) => state.cart.items);
+  const cart = useSelector(selectCart);
+  const user = useSelector(selectUser);
 
   // Check if the product is already in the cart
   const isInCart = cart.some((cartItem) => cartItem.id === product.productId);
 
   // Handle Add to Cart
-  const handleAddToCart = (e) => {
+  const handleAddToCart = async (e) => {
     e.stopPropagation(); // Prevent card click event from triggering
-    const cartItem = {
-      id: product.productId, // Map productId to id as expected in the cartSlice
-      name: product.name,
-      image: product.imageUrl,
-      price: product.price,
-      quantity: 1, // Default quantity for new items
-      maxQuantity: 5, // Placeholder for maxQuantity; adapt as needed
-      subtotal: product.price * 1,
-      description: product.description,
-    };
-    dispatch(addItem(cartItem)); // Dispatch the add action
+
+    //  request api to add to the cart table in database based on the userID and ProductID
+    try {
+      const res = await cartApi.addProductToCart(
+        user?.userId,
+        product.productId
+      );
+      console.log(res.response.cartId);
+      const cartItem = {
+        id: product.productId, // Map productId to id as expected in the cartSlice
+        name: product.name,
+        image: product.imageUrl,
+        price: product.price,
+        quantity: 1, // Default quantity for new items
+        maxQuantity: 5, // Placeholder for maxQuantity; adapt as needed
+        subtotal: product.price * 1,
+        description: product.description,
+        cartId: res?.response.cartId,
+      };
+
+      dispatch(addItem(cartItem)); // Dispatch the add action
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   // Handle Remove from Cart
-  const handleRemoveFromCart = (e) => {
+  const handleRemoveFromCart = async (e) => {
     e.stopPropagation(); // Prevent card click event from triggering
-    dispatch(removeItem(product.productId)); // Dispatch the remove action
+    try {
+      console.log(cart);
+      const res = await cartApi.removeProductFromCart(
+        cart[0]?.cartId,
+        product.productId
+      );
+      console.log(res);
+
+      dispatch(removeItem(product.productId)); // Dispatch the remove action
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

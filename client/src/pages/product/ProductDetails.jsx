@@ -1,12 +1,11 @@
 import React, { useState } from "react";
 import { AiOutlineMinus, AiOutlinePlus } from "react-icons/ai";
-import { MdLocalShipping, MdOutlineReplay } from "react-icons/md";
-import { useLocation } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { useLocation } from "react-router-dom";
 import {
   addItem,
-  updateQuantity,
   selectCart,
+  updateQuantity,
 } from "../../features/cart/cartSlice";
 
 export const ProductDetails = () => {
@@ -170,7 +169,7 @@ export const ProductDetails = () => {
             onClick={handleAddToCart}
             className="bg-red-500 text-white px-6 py-2 rounded-md hover:bg-red-600"
           >
-            Add to Cart
+            Add to Cart test
           </button>
         </div>
       </div>

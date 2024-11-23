@@ -1,12 +1,31 @@
-import React from "react";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import visaIcon from "../../Assests/Visa.png";
 import mastercardIcon from "../../Assests/masterCard.png";
-import product1 from "../../Assests/product1.png";
-import product2 from "../../Assests/product2.png";
-import { useSelector, useDispatch } from "react-redux";
+import orderApi from "../../api/modules/order.api";
+import { clearCart } from "../../features/cart/cartSlice";
+import { selectUser } from "../../features/user/userSlice";
 export const BillingDetails = () => {
   const cart = useSelector((state) => state.cart.items); // Get cart items from Redux store
   const total = cart.reduce((acc, cur) => acc + cur.subtotal, 0); // Calculate the total
+  // const order = useSelector(selectorder);
+  const user = useSelector(selectUser);
+  const [showPopup, setShowPopup] = useState(false);
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const handleCheckoutPayment = async (e) => {
+    e.preventDefault();
+    const orderId = localStorage.getItem("orderId");
+    try {
+      const res = await orderApi.makePayment(orderId, user?.userId);
+      console.log(res);
+      dispatch(clearCart());
+      setShowPopup(true);
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   return (
     <div className="flex flex-col lg:flex-row items-start justify-between gap-6 lg:gap-12 p-4 lg:p-8 w-full max-w-screen-xl mx-auto">
@@ -165,10 +184,34 @@ export const BillingDetails = () => {
 
         {/* Place Order Button */}
         <div className="mt-6 flex justify-start">
-          <button className="bg-red-500 text-white px-8 py-2 rounded-md text-lg font-medium hover:bg-red-600">
-            Place Order
+          <button
+            onClick={handleCheckoutPayment}
+            className="bg-red-500 text-white px-8 py-2 rounded-md text-lg font-medium hover:bg-red-600"
+          >
+            Proceed to Checkout
           </button>
         </div>
+
+        {/* Popup Modal */}
+        {showPopup && (
+          <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 z-50">
+            <div className="bg-white rounded-lg shadow-lg p-6 w-80 text-center">
+              <h2 className="text-lg font-bold text-teal-600 mb-4">
+                Payment Successful!
+              </h2>
+              <p className="text-gray-700 mb-4">
+                Thank you for your order. We'll notify you once your order is
+                shipped.
+              </p>
+              <button
+                onClick={() => navigate("/")}
+                className="bg-teal-500 hover:bg-teal-600 text-white py-2 px-4 rounded font-semibold"
+              >
+                OK
+              </button>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

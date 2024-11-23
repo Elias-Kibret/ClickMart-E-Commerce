@@ -1,11 +1,10 @@
-import React, { useState } from "react";
 import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom"; // Import useNavigate
 import authImage from "../../Assests/auth.png"; // Ensure the image path is correct
 import authApi from "../../api/modules/auth.api";
-import { setUser, selectUser } from "../../features/user/userSlice";
-import { useDispatch } from "react-redux";
-import { useSelector } from "react-redux";
+import { selectUser, setUser } from "../../features/user/userSlice";
 export const SignUpForm = () => {
   const [isLogin, setIsLogin] = useState(true); // Default to Login Form
   const [formData, setFormData] = useState({
@@ -51,7 +50,7 @@ export const SignUpForm = () => {
         });
 
         if (response) {
-          const { name, userAccountStatus } = response.user;
+          const { name, userAccountStatus, userId } = response.user;
 
           const { role, jwt } = response;
 
@@ -59,7 +58,12 @@ export const SignUpForm = () => {
           localStorage.setItem("token", jwt);
 
           dispatch(
-            setUser({ name: name, role: role, active: userAccountStatus })
+            setUser({
+              name: name,
+              role: role,
+              active: userAccountStatus,
+              userId: userId,
+            })
           );
           const data = {
             name: name,
