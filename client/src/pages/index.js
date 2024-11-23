@@ -10,6 +10,7 @@ import { AddProduct } from "./products/AddProduct";
 import { AdminDashboard } from "./admin/AdminDashboard";
 import { ReviewsTab } from "./admin/ReviewsTab";
 import { ApprovalTab } from "./admin/ApprovalTab";
+import {About} from "./about/About";
 
 export {
   Layout,
@@ -24,4 +25,5 @@ export {
   AdminDashboard,
   ApprovalTab,
   ReviewsTab,
+  About
 };

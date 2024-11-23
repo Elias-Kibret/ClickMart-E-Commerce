@@ -4,7 +4,6 @@ import { Filters } from "./Filters";
 import { ProductGrid } from "./ProductGrid";
 import { Pagination } from "./Pagination";
 import { useDispatch, useSelector } from "react-redux";
-import axios from "axios";
 import {
   selectProducts,
   setProducts,
@@ -15,122 +14,49 @@ import { productApi } from "../../api/modules/product.api";
 
 export const Products = () => {
   const location = useLocation();
-  const category = location.state?.category || "All";
+  const category = location.state?.category || "All"; // Default to "All" if no category is passed
+  console.log(category);
   const dispatch = useDispatch();
-  const allProducts = useSelector(selectProducts);
-  useEffect(() => {
-    fetchProducts();
-  }, [dispatch]);
 
-  const fetchProducts = async () => {
+  // Select all products and filtered products from Redux store
+  const allProducts = useSelector(selectProducts);
+  const filteredProducts = useSelector((state) =>
+    selectfilteredProductsByCategory(state)
+  );
+
+  useEffect(() => {
+    // Fetch products based on category
+    if (category === "All") {
+      fetchAllProducts();
+    } else {
+      fetchProductsByCategory(category);
+    }
+  }, [dispatch, category, allProducts]);
+
+  // Fetch all products
+  const fetchAllProducts = async () => {
     try {
       const products = await productApi.getAllProducts();
-      console.log(products); // Directly log the products
       dispatch(setProducts(products)); // Dispatch products to Redux store
     } catch (error) {
-      console.error("Error fetching products:", error);
+      console.error("Error fetching all products:", error);
     }
   };
-  const product = [
-    {
-      productId: 22,
-      name: "Casual Sneakers",
-      imageUrl:
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-      description: "Comfortable sneakers for daily wear and casual outings.",
-      price: 39.99,
-      category: "Footwear",
-      relatedImages: [
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-      ],
-      colors: ["Black", "White"],
-      sizes: ["S", "M", "L", "XL"],
-      reviews: [],
-      available: true,
-      quantity: 9,
-    },
-    {
-      productId: 23,
-      name: "Casual Sneakers",
-      imageUrl:
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-      description: "Comfortable sneakers for daily wear and casual outings.",
-      price: 39.99,
-      category: "Footwear",
-      relatedImages: [
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-      ],
-      colors: ["Black", "White"],
-      sizes: ["S", "M", "L", "XL"],
-      reviews: [],
-      available: true,
-      quantity: 9,
-    },
-    {
-      productId: 24,
-      name: "Casual Sneakers",
-      imageUrl:
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-      description: "Comfortable sneakers for daily wear and casual outings.",
-      price: 39.99,
-      category: "Footwear",
-      relatedImages: [
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-      ],
-      colors: ["Black", "White"],
-      sizes: ["S", "M", "L", "XL"],
-      reviews: [],
-      available: true,
-      quantity: 9,
-    },
-    {
-      productId: 25,
-      name: "Casual Sneakers",
-      imageUrl:
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-      description: "Comfortable sneakers for daily wear and casual outings.",
-      price: 39.99,
-      category: "Footwear",
-      relatedImages: [
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a3?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a0?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a9?$desktopProduct$",
-        "https://coach.scene7.com/is/image/Coach/cy066_blk_a91?$desktopProduct$",
-      ],
-      colors: ["Black", "White"],
-      sizes: ["S", "M", "L", "XL"],
-      reviews: [],
-      available: true,
-      quantity: 9,
-    },
-  ];
 
-  console.log(allProducts);
+  // Fetch products by category
+  const fetchProductsByCategory = async (category) => {
+    try {
+      const product = await productApi.getProductsByCategory(category);
+
+      dispatch(setProductByCategory(product)); // Update Redux with filtered products
+    } catch (error) {
+      console.error(`Error fetching products for category ${category}:`, error);
+    }
+  };
+
+  console.log("All products:", allProducts);
+  console.log("Filtered products:", filteredProducts);
+
   return (
     <div className="container mx-auto px-4 lg:px-8 flex gap-8 mt-10">
       {/* Sidebar */}
@@ -138,8 +64,9 @@ export const Products = () => {
 
       {/* Product Grid */}
       <div className="flex-1">
-        <ProductGrid product={allProducts} />
-
+        <ProductGrid
+          product={category == "All" ? allProducts : filteredProducts}
+        />
         <Pagination />
       </div>
     </div>

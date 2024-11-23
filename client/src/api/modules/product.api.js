@@ -15,7 +15,6 @@ export const productApi = {
   getAllProducts: async () => {
     try {
       const response = await publicClient.get(productEndpoints.getAll);
-      console.log("All Products:", response);
       return response;
     } catch (err) {
       return { err };
@@ -29,8 +28,8 @@ export const productApi = {
         ":category",
         category
       );
+      console.log(endpoint);
       const response = await publicClient.get(endpoint);
-      console.log(`Products in category ${category}:`, response);
       return response;
     } catch (err) {
       return { err };
@@ -42,7 +41,6 @@ export const productApi = {
     try {
       const endpoint = productEndpoints.getById.replace(":id", id);
       const response = await publicClient.get(endpoint);
-      console.log(`Product with ID ${id}:`, response);
       return response;
     } catch (err) {
       return { err };
@@ -56,7 +54,6 @@ export const productApi = {
         productEndpoints.addProduct,
         productData
       );
-      console.log("Product added:", response);
       return response;
     } catch (err) {
       return { err };
@@ -68,7 +65,6 @@ export const productApi = {
     try {
       const endpoint = productEndpoints.updateProduct.replace(":id", id);
       const response = await privateClient.put(endpoint, productData);
-      console.log(`Product with ID ${id} updated:`, response);
       return response;
     } catch (err) {
       return { err };
@@ -80,7 +76,6 @@ export const productApi = {
     try {
       const endpoint = productEndpoints.deleteProduct.replace(":id", id);
       const response = await privateClient.delete(endpoint);
-      console.log(`Product with ID ${id} deleted:`, response);
       return response;
     } catch (err) {
       return { err };

@@ -19,6 +19,7 @@ export const Header = () => {
   // Access user and cart data from Redux store
   const user = useSelector(selectUser); // Fetch logged-in user from Redux
   const cart = useSelector(selectCart); // Fetch cart items from Redux
+  console.log(user);
 
   // Calculate total quantity of items in the cart
   const totalCartQuantity = cart.reduce(
@@ -36,8 +37,27 @@ export const Header = () => {
   };
 
   const renderNavLinks = () => {
+    if (user?.role === "ADMIN") {
+      return (
+        <>
+          <Link
+            to="/approvals"
+            className="hover:underline text-gray-700 font-medium"
+          >
+            Approve Customers
+          </Link>
+          <Link
+            to="/reviews"
+            className="hover:underline text-gray-700 font-medium"
+          >
+            Reviews
+          </Link>
+        </>
+      );
+    }
+
     if (user?.role === "SELLER") {
-      if (user?.active !== "ACTIVATE") {
+      if (user?.active !== "ACTIVE") {
         return (
           <p className="text-red-600 font-medium">
             Your account is pending activation.
@@ -46,10 +66,16 @@ export const Header = () => {
       }
       return (
         <>
-          <Link to="/seller-dashboard/myposts" className="hover:underline">
+          <Link
+            to="/seller-dashboard/myposts"
+            className="hover:underline text-gray-700 font-medium"
+          >
             My Products
           </Link>
-          <Link to="/seller-dashboard/add" className="hover:underline">
+          <Link
+            to="/add-product"
+            className="hover:underline text-gray-700 font-medium"
+          >
             Add Product
           </Link>
         </>
@@ -59,13 +85,16 @@ export const Header = () => {
     // Default links for other users
     return (
       <>
-        <Link to="/" className="hover:underline">
+        <Link to="/" className="hover:underline text-gray-700 font-medium">
           Home
         </Link>
-        <Link to="/contact" className="hover:underline">
+        <Link
+          to="/contact"
+          className="hover:underline text-gray-700 font-medium"
+        >
           Contact
         </Link>
-        <Link to="/about" className="hover:underline">
+        <Link to="/about" className="hover:underline text-gray-700 font-medium">
           About
         </Link>
       </>
@@ -86,7 +115,7 @@ export const Header = () => {
 
         <div className="flex items-center space-x-4 md:mr-10">
           {/* Display cart, search, and favorite only for non-sellers */}
-          {user?.role !== "SELLER" && (
+          {user?.role !== "SELLER" && user?.role !== "ADMIN" && (
             <>
               <div className="hidden lg:flex items-center border rounded-md h-12 px-2 py-1 bg-gray-100 md:mr-6">
                 <input

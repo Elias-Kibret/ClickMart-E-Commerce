@@ -10,7 +10,7 @@ export const productsSlice = createSlice({
   },
   reducers: {
     setProducts: (state, action) => {
-      console.log("inside", state, action.payload);
+   
       state.products = action.payload;
     },
     setProduct: (state, action) => {

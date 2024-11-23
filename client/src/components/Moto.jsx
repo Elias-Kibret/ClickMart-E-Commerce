@@ -10,15 +10,14 @@ import moto5 from "../Assests/moto5.mp4";
 import moto6 from "../Assests/moto6.jpg";
 
 const categories = [
-  "Women's Fashion",
-  "Men's Fashion",
+  "Men",
   "Electronics",
-  "Home & Lifestyle",
+  "Home",
   "Medicine",
-  "Sports & Outdoor",
-  "Baby's & Toys",
-  "Groceries & Pets",
-  "Health & Beauty",
+  "Sport",
+  "Toys",
+  "Pets",
+  "Health",
 ];
 
 export const Moto = () => {

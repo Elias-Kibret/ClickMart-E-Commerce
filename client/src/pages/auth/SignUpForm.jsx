@@ -74,8 +74,7 @@ export const SignUpForm = () => {
               state: data,
             });
           } else if (role === "SELLER") {
-            // navigate("/seller-dashboard");
-            navigate("/add-product");
+            navigate("/seller-dashboard");
           } else if (role === "ADMIN") {
             navigate("/admin-dashboard");
           } else {

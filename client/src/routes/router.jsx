@@ -10,6 +10,7 @@ import {
   AdminDashboard,
   ReviewsTab,
   ApprovalTab,
+  About,
 } from "../pages";
 import SignUpForm from "../pages/auth/SignUpForm";
 import { Products } from "../pages";
@@ -58,6 +59,10 @@ export const router = createBrowserRouter([
       {
         path: "reviews",
         element: <ReviewsTab />,
+      },
+      {
+        path: "about",
+        element: <About />,
       },
       {
         path: "products",
